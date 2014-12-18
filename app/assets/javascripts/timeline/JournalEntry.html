@@ -1,0 +1,35 @@
+<div class='header'>
+  <img class='author-pic' ng-src="{{ item.author.profile_pictures.thumb }}" />
+  <span class='right-of-author-pic'>
+    <a class='name' href='#'>{{ item.author.full_name }}</a>
+    <span class='time'>{{ item.updated_at_friendly }}</span>
+  </span>
+</div>
+
+<div class='body'>
+  <div ng-bind-html="item.body"></div>
+
+  <br /><br />
+  <a href='' ng-click='userHome.supportJournalEntry(item)'>Support</a>
+  <span>{{ item.support_count }} Support</span>
+</div>
+
+<div class='actions clearfix'>
+  <img ng-src="{{ $auth.user.profile_pictures.thumb }}" />
+  <textarea ng-model='item.newComment' us-new-comment-keypress post='post'></textarea>
+</div>
+<ul class='comments list-unstyled'>
+  <li ng-repeat='comment in item.comments'>
+    <div>
+      <img ng-src="{{ comment.author.profile_pictures.thumb }}" />
+      <div class='name-time-body'>
+        <div class='name-time'>
+          <span class='name'>{{ comment.author.full_name }}</span><br />
+          <span class='time'>{{ comment.updated_at_friendly }}</span>
+        </div>
+        <span class='comment-body'>{{ comment.comment }}<span>
+      </div>
+    </div>
+  </li>
+</ul>
+

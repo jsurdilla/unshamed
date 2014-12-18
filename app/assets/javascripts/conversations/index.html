@@ -1,0 +1,14 @@
+<div id='conversations' class='container'>
+
+  <div class='row'>
+    <div class="col-xs-4 col-sm-2 sidebar-offcanvas sidebar" role="navigation">
+      <ul class="nav">
+        <li ui-sref-active='active'><a ui-sref=".inbox">Inbox</a></li>
+        <li ui-sref-active='active'><a ui-sref=".sentbox">Sent</a></li>
+        <li ui-sref-active='active'><a ui-sref=".trash">Trash</a></li>
+      </ul>
+    </div>
+
+    <div ui-view='details'></div>
+  </div>
+</div>

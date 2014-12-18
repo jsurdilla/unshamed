@@ -1,0 +1,23 @@
+<div id='new-journal' class='container'>
+  <div class='row'>
+
+    <ol class="breadcrumb">
+      <li><a ui-sref="journalEntries">My Journal</a></li>
+      <li>New Entry</li>
+    </ol>
+
+    <div class='col-md-12 medium-editor-section'>
+      <h1 ng-model="journalEntry.entry.title" medium-editor options='{"placeholder": "Enter a title", "disableToolbar": true, "forcePlainText": true, "disableReturn": true}'></h1>
+
+      <p ng-model="journalEntry.entry.body" medium-editor options='{"placeholder": "Start writing", "buttons": ["bold", "italic", "underline", "anchor", "header1", "header2", "quote", "orderedlist", "unorderedlist"]}'></p>
+
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model='journalEntry.entry.public'> Visible to Others</label>
+      </div>
+
+      <div class='actions'>
+        <button class='btn btn-primary' ng-click='journalEntry.save()'>Save</button>
+      </div>
+    </div>
+  </div>
+</div>

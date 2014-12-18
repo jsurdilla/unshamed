@@ -1,0 +1,10 @@
+div.medium-editor-section {
+  > h1, > p { outline: none; }
+  > p {
+    font-size: 1.5em;
+  }
+
+  .actions {
+    margin-top: 2rem;
+  }
+}

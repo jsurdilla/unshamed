@@ -1,0 +1,11 @@
+<div class='birthdate-picker'>
+  <select class='month form-control' ng-model='dateFields.month' ng-options='month.value as month.label for month in months' ng-required ng-change='checkDate()'>
+    <option value=''>Month</option>
+  </select>
+  <select class='day form-control' ng-model='dateFields.day' ng-options='day for day in days' ng-required ng-change='checkDate()'>
+    <option value=''>Day</option>
+  </select>
+  <select class='year form-control' ng-model='dateFields.year' ng-options='year for year in years' ng-required ng-change='checkDate()'>
+    <option value=''>Year</option>
+  </select>
+</div>

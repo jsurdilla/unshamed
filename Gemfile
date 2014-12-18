@@ -4,9 +4,13 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# gem 'sqlite3'
 # Use SCSS for stylesheets
+gem 'bootstrap-sass'
 gem 'sass-rails', '~> 4.0.3'
+gem 'compass-rails'
+gem 'angular-rails-templates'
+gem 'autoprefixer-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -30,7 +34,7 @@ gem 'spring',        group: :development
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -38,3 +42,24 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# Utilities
+gem 'awesome_print'
+
+gem 'pg'
+
+gem 'rails_12factor', group: :production
+
+gem 'devise_token_auth'
+gem 'omniauth'
+gem 'foreigner'
+
+gem 'faker'
+gem 'acts_as_commentable'
+gem 'active_model_serializers'
+gem 'kaminari'
+gem "paperclip", "~> 4.2"
+gem 'aasm'
+gem 'pry'
+gem 'mailboxer'
+
+ruby "2.1.3"

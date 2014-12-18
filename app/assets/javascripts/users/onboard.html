@@ -1,0 +1,104 @@
+<div id='onboard' class="container">
+
+  <div class='row' ng-show='onboard.justVerified'>
+    <div class='col-md-4 col-centered'>
+      <div class="alert alert-success" role="alert">
+        Thank you for you confirming your email.
+      </div>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class='col-md-3 right-rail'>
+      <h1>Welcome to Unshamed</h1>
+      <p>
+        Please tell us a little a bit about you.
+        Your privacy and confidentiality is of outmost importance.
+        We will never share your information and will only be used
+        to provide you with a tailored experience.
+      </p>
+    </div>
+    <form role='form' ng-submit='onboard.onboardUser()' name='onboardingForm' novalidate>
+      <div class='col-md-9 main-content'>
+        <div class='row'>
+          <div class='col-md-12'>
+            <h3>Basic Information</h3>
+
+            <div class='row'>
+              <div class='col-md-5'>
+                <div class='form-group'>
+                  <label for='user-first-name'>Username <span class='error' ng-show='onboardingForm.$error.username'>(already taken)</span></label>
+                  <input type='text' class='form-control' id='user-username' ng-model='onboard.user.username' ng-required='true' name='username' unique-username />
+                </div>
+                <div class='form-group'>
+                  <label for='user-first-name'>First Name (optional)</label>
+                  <input type='text' class='form-control' id='user-first-name' ng-model='onboard.user.first_name'>
+                </div>
+                <div class='form-group'>
+                  <label for='user-first-name'>Last Name (optional)</label>
+                  <input type='text' class='form-control' id='user-first-name' ng-model='onboard.user.last_name'>
+                </div>
+                <div class='form-group'>
+                  <label for='user-first-name'>Zip Code</label>
+                  <input type='text' class='form-control' id='user-zip-code' ng-model='onboard.user.zip_code' ng-required='true'>
+                </div>
+                <div class='form-group'>
+                  <label for='user-gender'>Gender</label>
+                  <select class='form-control' id='user-gender' ng-model='onboard.user.gender' ng-options='gender.value as gender.title for gender in onboard.genders' ng-required='true'>
+                    <option value=''>Select One</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class='col-md-5 col-md-offset-1'>
+                <div class='form-group'>
+                  <label for='user-first-name'>Profile Picture (<a ng-click='onboard.selectPhoto()'>Select</a>)</label>
+                  <div class='profile-pic'>
+                    <img ng-src='{{ onboard.croppedPhoto }}' />
+                  </div>
+                </div>
+                <div class='form-group'>
+                  <label for='user-first-name'>Birthdate</label>
+                  <input class='form-control' id='user-birthdate' ng-model='onboard.user.birthdate' birthdate-picker ng-required='true' />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-12'>
+            <h3>Please tell us about yourself</h3>
+            <div class='form-group'>
+              <textarea class='form-control' id='user-about-me' ng-model='onboard.user.about_me' ng-required='true'></textarea>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-12'>
+            <input type='hidden' ng-model='onboard.user.struggles' at-least-one />
+            <h3>What are you here for?</h3>
+            <ul class='list-inline list-unstyled struggles clearfix'>
+              <li>
+                <a ng-class="{selected: onboard.struggleSelect('anxiety')}" ng-click="onboard.toggleStruggle('anxiety')">Anxiety</a>
+              </li>
+              <li>
+                <a ng-class="{selected: onboard.struggleSelect('depression')}" ng-click="onboard.toggleStruggle('depression')">Depression</a>
+              </li>
+              <li>
+                <a ng-class="{selected: onboard.struggleSelect('ocd')}" ng-click="onboard.toggleStruggle('ocd')">OCD</a>
+              </li>
+              <div class='error' ng-show='onboardingForm.$submitted && onboard.user.struggles.length == 0'>Please select at least one.</div>
+            </ul>
+          </div>
+        </div>
+
+        <div class='row action'>
+          <div class='col-md-12'>
+            <button type='submit' class='btn btn-primary pull-right save' ng-disabled='onboardingForm.$invalid'>Save</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div><!-- /.container -->

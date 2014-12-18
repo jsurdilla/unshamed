@@ -1,0 +1,17 @@
+<div id='convo-details' class="col-xs-12 col-sm-10">
+  <ul class='list-unstyled messages'>
+    <li ng-repeat='message in convoShow.convo.messages'>
+      <strong>{{ message.sender.full_name }}</strong><br />
+      {{ message.body }}
+    </li>
+  </ul>
+
+  <div id='reply'>
+    <form role="form" ng-submit='convoShow.postReply()' name='convoShow.replyForm' novalidate>
+      <textarea placeholder='Your reply' ng-model='convoShow.reply.body' ng-required='true'></textarea>
+      <div class='action clearfix'>
+        <button class='btn btn-sm btn-primary pull-right' ng-disabled='!convoShow.canPostReply()' ng-click='convoShow.postReply()'>Send Reply</button>
+      </div>
+    </form>
+  </div>
+</div><!-- /.col-xs-12 main -->

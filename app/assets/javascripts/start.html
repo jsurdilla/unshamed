@@ -1,0 +1,104 @@
+<div id='landing'>
+  <header class='intro'>
+    <div class='logo'>
+      <img src='/assets/logo@2x.png' />
+    </div>
+
+    <h1>No Stigmas. No Shame. Just You.</h1>
+    <h4>Let's conquer our mental health together</h4>
+
+    <flippy class="fancy forms" flip-duration="800" timing-function="ease-in-out">
+      <flippy-front class='register' ng-controller='RegistrationCtrl as reg'>
+      <h4 class='heading'>Join Now <span>/ <a ng-click='flip()'>Login</a></span></h4>
+      <form role="form" ng-submit='reg.register()' name='reg.regForm' novalidate>
+        <div class="form-group">
+          <input type="email" class="form-control" ng-model='reg.user.email' placeholder='Email'>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" ng-model='reg.user.password' placeholder='Password'>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" ng-model='reg.user.password_confirmation' placeholder='Confirm Password'>
+        </div>
+        <button type="submit" class="btn btn-primary" ng-disabled='reg.processing || (reg.regForm.$pristine && reg.successful)'>Let's do it</button>
+
+        <div class='result' ng-class='reg.alert.type'>{{ reg.alert.msg }}</div>
+      </form>
+
+      </flippy-front>
+      <flippy-back class='register' ng-controller='LoginCtrl as login'>
+        <h4 class='heading'>Login <span>/ <a ng-click='flip()'>Sign Up</a></span></h4>
+        <form role="form" ng-submit='login.login()' name='login.loginForm' novalidate>
+          <div class="form-group">
+            <input type="email" class="form-control" ng-model='login.user.email' placeholder='Email'>
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" ng-model='login.user.password' placeholder='Password'>
+          </div>
+          <button type="submit" class="btn btn-primary" ng-disabled='login.processing || (login.loginForm.$pristine && login.successful)'>Login</button>
+        </form>
+        <div class='result' ng-class='login.alert.type'>{{ login.alert.msg }}</div>
+
+      </flippy-back>
+    </flippy>
+  </header>
+
+  <div class="container why">
+    <div class="row">
+      <div class='col-md-3 col-md-offset-2'>
+        <h2>Community</h2>
+        <p>Connect with people who share your mental health struggles.</p>
+      </div>
+      <div class='col-md-3 col-md-offset-2'>
+        <h2>Resources</h2>
+        <p>Get helpful resources to learn how to deal with all aspects of your mind and well-being.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class='col-md-3 col-md-offset-2'>
+        <h2>Support</h2>
+        <p>Get insight from top mental health professionals.</p>
+      </div>
+      <div class='col-md-3 col-md-offset-2'>
+        <h2>Movement</h2>
+        <p>Join the revolution to help end the stigma surrounding mental health.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="supporters">
+    <h2>Supporters</h2>
+    <p>
+      Family, friends, and all those with loved ones dealing with their mental health
+      can now connect with others to find support and resources.
+    </p>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+          <ul class="list-inline text-center">
+            <li>
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+        <p class="copyright text-muted">Copyright &copy; Unshamed 2015</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

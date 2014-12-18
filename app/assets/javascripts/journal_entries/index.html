@@ -1,0 +1,15 @@
+<div id='journal-entries' class='container'>
+  <div class='row'>
+    <ol class="breadcrumb">
+      <li>My Journal</li>
+      <li><a ui-sref='journalEntries.show({ id: null })'>New Entry</a></li>
+    </ol>
+  </div>
+  <div class='row'>
+    <ul>
+      <li ng-repeat='entry in journalEntries.entries'>
+        <a ui-sref='journalEntries.show({ id: entry.id })'>{{ entry.title }}</a>
+      </li>
+    </ul>
+  </div>
+</div>

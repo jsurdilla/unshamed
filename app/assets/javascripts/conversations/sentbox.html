@@ -1,0 +1,12 @@
+<div class="col-xs-12 col-sm-10">
+  <ul class='list-unstyled convos'>
+    <li ng-repeat='convo in sentbox.convos' ng-click='sentbox.showConvo(convo)'>
+      <strong>{{ convo.partipantsDisplayText() }}</strong><br />
+      {{ convo.subject }}
+    </li>
+  </ul>
+</div><!-- /.col-xs-12 main -->
+
+<div class="col-xs-12 col-sm-10" ng-hide='sentbox.convos.length'>
+  <strong>Nothing here.</strong>
+</div><!-- /.col-xs-12 main -->
