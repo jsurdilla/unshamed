@@ -1,0 +1,311 @@
+.registration-panel {
+  .results { font-weight: 500; margin-bottom: 2rem; }
+  .login-now { font-weight: 500; margin-top: 2rem; }
+}
+
+.login-panel {
+  .register-now { font-weight: 500; margin-top: 2rem; }
+}
+
+.form-control {
+  border: none;
+}
+
+.btn {
+  @include border-radius(0);
+  border: none;
+}
+
+.btn-primary {
+  background-color: #23a597 !important;
+
+  &:hover, &:active, &.active { background-color: #178377 !important; }
+  &:focus { outline-color: $turquoise; }
+  &[disabled] { background-color: #1F8F83; color: #83E6DA; }
+}
+
+.navbar-default {
+  background-color: #25ad9f;
+  border-bottom: 4px solid $dark-turquoise;
+  height: 64px;
+
+  .navbar-brand {
+    color: white;
+
+    img { width: 150px; }
+  }
+
+  .navbar-nav > li > a { line-height: 30px; }
+  .navbar-nav > .open > a,
+  .navbar-nav > .open > a:hover,
+  .navbar-nav > .open > a:focus {
+    background-color: #23a597; color: white;
+    border-bottom: 4px solid $dark-turquoise;
+    height: 64px;
+  }
+
+
+  .navbar-nav > li > a {
+    color: white;
+
+    &:hover { background-color: #23a597; color: white; cursor: pointer; border-bottom: 4px solid $dark-turquoise; height: 64px; }
+
+    &.friends {
+      img {
+        width: 30px;
+      }
+    }
+  }
+
+  img.profile-pic { margin-left: 10px; width: 30px; @include border-radius(15px); }
+}
+
+.panel-default {
+  border: none;
+  @include box-shadow(none);
+  @include border-radius(0);
+
+  .panel-heading { @include border-radius(0); background-color: #25ad9f; border: none; color: white; }
+  .panel-body {
+    border: 1px solid #f0f0f0;
+    border-top: none;
+  }
+}
+
+
+// COMMON
+
+.birthdate-picker { background: none; @include box-shadow(none); padding: 0; }
+
+.panel-heading.pop { font-weight: 600; font-size: 1.1em; }
+
+@mixin timeline-items {
+  .items {
+    .post, .journal_entry {
+      border: 1px solid #f0f0f0;
+      margin-bottom: 2rem;
+
+      &:first-child { margin-top: 1rem; }
+
+      .header {
+        padding: 8px;
+        .author-pic, .right-of-author-pic { vertical-align: top; }
+        .right-of-author-pic {
+          display: inline-block; margin-left: 1rem;
+          .name, .time { display: block; }
+        }
+      }
+
+      .body {
+        margin: 1rem;
+      }
+
+      .actions {
+        border-top: 1px solid #f0f0f0; padding: 1rem;
+        background-color: #f5f5f5;
+
+        textarea {
+          width: 88%;
+          float: right;
+        }
+      }
+
+    }
+  }
+}
+
+#home-timeline {
+  $light-bg: #F9FBFC;
+
+  .content-area {
+    @extend .row;
+  }
+
+  .hero {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .left-rail, .right-rail {
+    section h4 {
+      color: $turquoise;
+      font-size: 1.1rem;
+      padding: 10px;
+      margin: 0;
+    }
+  }
+
+  .left-rail {
+    @extend .col-md-3;
+
+    .resources {
+      li {
+        border-bottom: 1px solid $border-turquoise;
+        padding: 8px 2px;
+
+        &:first-child { padding-top: 0; }
+        &:last-child { padding-bottom: 0; border-bottom: none; }
+
+        &.article a { background: url('/assets/article@2x.png') no-repeat 0 4px; background-size: 12px 12px; }
+        &.video a { background: url('/assets/video@2x.png') no-repeat 0 4px; background-size: 12px 12px; }
+
+        a {
+          display: block;
+          padding-left: 18px;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .timeline {
+    @extend .col-md-6;
+
+    #status-update {
+      border: 1px solid $border-turquoise;
+      margin-bottom: 20px;
+
+      .textarea-wrapper { margin: 3px; }
+      textarea {
+        @include box-sizing(border-box);
+        @include border-top-left-radius(3px);
+        @include border-top-right-radius(3px);
+        border: none;
+        width: 100%;
+        outline: none;
+        padding: 0.75em 0.75em 0 0.75em;
+      }
+      .action {
+        $bg-turquoise: #F9FBFC;
+        border-top: 1px solid $border-turquoise;
+        padding: 3px;
+      }
+    }
+
+    div.post, div.journal_entry {
+      border: 1px solid $border-turquoise;
+      margin-bottom: 20px;
+
+      .header { border-bottom: 1px solid $border-turquoise; padding: 4px; }
+      .body { border-bottom: 1px solid $border-turquoise; padding: 8px; }
+
+      .author-pic { width: 50px; height: 50px; }
+      .author-pic + div {
+        margin-left: 10px;
+        display: inline-block;
+        vertical-align: middle;
+
+        .name { color: $turquoise; font-weight: 600; }
+        .time { font-size: 0.9rem; font-style: italic; }
+      }
+
+      a.support { color: $red-link; cursor: pointer; display: inline-block; margin-top: 1rem; text-decoration: none; font-weight: bold; }
+
+      .props-count {
+        padding: 0.5rem;
+      }
+
+      .actions {
+        .view-more {
+          display: block;
+          padding: 4px 8px;
+
+          &:hover { cursor: pointer; }
+        }
+
+        .new-comment {
+          .pic {
+            margin: 3px;
+            float: left;
+            width: 30px;
+
+            img { width: 30px; }
+          }
+
+          .comment-box {
+            background-color: $bg-turquoise;
+            border-left: 1px solid $border-turquoise;
+            overflow: hidden;
+
+            textarea {
+              border: none;
+              padding: 6px;
+              width: 100%;
+              min-height: 50px;
+
+              &:focus { outline:0 !important; }
+            }
+          }
+        }
+
+        .comments {
+          border-bottom: 1px solid $border-turquoise;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+
+          li {
+            &:last-child { border-bottom: none; }
+            margin: 6px;
+            padding-bottom: 6px;
+
+            > img { float: left; width: 30px; }
+
+            .name-time { float: left; padding: 0 8px;  display: inline-block; vertical-align: top; }
+            .name { font-weight: bold; color: $turquoise; }
+            .time { font-size: 0.9rem; font-style: italic; }
+
+            .comment-body { overflow: hidden; }
+          }
+        }
+
+        .commenter-pic { width: 30px; height: 30px; padding-right: 8px; border-right: 1px solid $border-turquoise; }
+        .commenter-pic + div { display: inline-block; vertical-align: middle; }
+      }
+    }
+
+    div.journal_entry {
+      .content {
+        .journal-icon {
+          float: left;
+          width: 18px;
+          margin-top: 0.5rem;
+        }
+        .journal-icon + div {
+          overflow: hidden;
+          padding-left: 0.5rem;
+
+          .entry-body { border-left: 2px solid $turquoise; padding-left: 0.5rem; }
+        }
+      }
+    }
+  }
+
+  .right-rail {
+    @extend .col-md-3;
+
+    section {
+      margin-bottom: 20px;
+
+      &.members, &.experts {
+        margin-top: 20px;
+
+        ul { list-style: none; padding-left: 10px; }
+
+        li {
+          float: left;
+          width: 50px;
+          height: 50px;
+
+          img { width: 100%; height: 100%; }
+        }
+      }
+
+      &.experts { border-left: 4px solid $experts-color; }
+      &.members { border-left: 4px solid $members-color; }
+    }
+  }
+}
+
+#conversations {
+}

@@ -14,3 +14,10 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+public/system
+.env
+app/assets/javascripts/.module-cache/
+app/assets/javascripts/gen/.module-cache/
+
+prod_db_backups

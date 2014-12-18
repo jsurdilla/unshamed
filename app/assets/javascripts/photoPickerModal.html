@@ -1,0 +1,24 @@
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" ng-show="title">
+        <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" ng-bind="title"></h4>
+      </div>
+
+      <div class='modal-body'>
+        <image-crop
+          data-width="200"
+          data-height="200"
+          data-shape="circle"
+          data-result="$parent.myCroppedImage"
+          data-step="$parent.imageCropStep"></image-crop>
+      </div>
+
+      <div class='modal-footer'>
+        <button class='btn btn-primary' ng-disabled='!$parent.myCroppedImage' ng-click='$hide()'>OK</button>
+        <button class='btn btn-warning' ng-click='$hide()'>Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

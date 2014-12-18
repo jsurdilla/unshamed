@@ -1,0 +1,26 @@
+<div id='member-details' class="container">
+  <div class="row">
+
+    <div class="left-rail">
+      <div class='user-pic'>
+        <img ng-src='{{ member.user.profile_pictures.medium }}' />
+      </div>
+
+      <section class='user-info wire-section'>
+        <h4>User Info</h4>
+        <div class='content'>
+          <div class='name'>{{ member.user.full_name }}</div>
+        </div>
+      </section>
+    </div><!-- /.sidebar -->
+
+    <div class='timeline'>
+      <timeline-items mode='"user"' user-id='member.user.id'></timeline-items>
+    </div>
+
+    <div class="right-rail">
+    </div><!-- /.right-rail -->
+
+  </div><!-- /.row -->
+
+</div><!-- /.container -->

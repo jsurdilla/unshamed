@@ -1,0 +1,45 @@
+<div class='header'>
+  <img class='author-pic' ng-src="{{ item.author.profile_pictures.square50 }}" />
+  <div>
+    <a class='name' href='#'>{{ item.author.full_name }}</a>
+    <div class='time'>{{ item.updated_at_friendly }}</div>
+  </div>
+</div>
+
+<div class='body'>
+  <div class='content'>
+    {{ item.body }}
+  </div>
+
+  <a class='support' ng-click='userHome.supportPost(item)'>Support</a>
+</div>
+
+
+
+
+
+<div class='props-count'>
+  <span>{{ item.support_count }} Support</span>
+</div>
+
+<div class='actions clearfix'>
+  <ul class='comments' ng-show='item.comments.length > 0'>
+    <li ng-repeat='comment in item.comments' class='clearfix'>
+      <img ng-src="{{ comment.author.profile_pictures.square50 }}" />
+      <div class='name-time'>
+        <span class='name'>{{ comment.author.full_name }}</span><br />
+        <span class='time'>{{ comment.updated_at_friendly }}</span>
+      </div>
+      <div class='comment-body'>{{ comment.comment }}<div>
+    </li>
+  </ul>
+
+  <div class='new-comment'>
+    <div class='pic'>
+      <img ng-src="{{ $auth.user.profile_pictures.square50 }}" />
+    </div>
+    <div class='comment-box'>
+      <textarea ng-model='item.newComment' us-new-comment-keypress item='item' placeholder='Write a comment...'></textarea>
+    </div>
+  <div>
+</div>

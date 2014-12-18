@@ -1,0 +1,14 @@
+<header>
+  <h3 ng-bind='convoShow.participantsInHeaderFormat()'></h3>
+</header>
+
+<conversation-list conversation-id='$stateParams.id'></conversation-list>
+
+<div class='reply'>
+  <form role="form" ng-submit='convoShow.postReply()' name='convoShow.replyForm' novalidate>
+    <textarea placeholder='Your reply' ng-model='convoShow.reply.body' ng-required='true'></textarea>
+    <div class='action clearfix'>
+      <button class='btn btn-sm btn-primary pull-right' ng-disabled='!convoShow.canPostReply()' ng-click='convoShow.postReply()'>Send Reply</button>
+    </div>
+  </form>
+</div>

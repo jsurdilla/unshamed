@@ -1,0 +1,61 @@
+<div id='home-timeline' class="container">
+  <div class='content-area'>
+    <div class='left-rail'>
+      <section class='friends wire-section'>
+        <h4>Connections</h4>
+        <div class='content'>
+          <ol class="list-unstyled">
+            <li ng-repeat='friend in userHome.friends'>
+              <img ng-src="{{ friend.profile_pictures.square50 }}" />
+              <a ui-sref='members.details({ id: friend.id })'>{{ friend.full_name }}</a>
+            </li>
+            <li ng-if='!userHome.friends.length'>
+              You have no connections yet. Why not say hello to someone?
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class='resources wire-section'>
+        <h4>Resources</h4>
+        <div class='content'>
+          <ol class="list-unstyled">
+            <li ng-repeat='resource in userHome.resources' ng-class='resource.media_type'>
+              <a ng-href='{{ resource.url }}' target='resource'>{{ resource.title }}</a>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </div>
+
+    <div class='timeline'>
+      <img class='hero' src='/assets/community.jpg' />
+      <timeline-items mode='"home"'></timeline-items>
+    </div>
+
+    <div class='right-rail'>
+      <a class='wire-btn' ng-hide='$auth.user["is_mhp?"]' ui-sref='conversations'><img src='/assets/speech-bubble@2x.png' />Messages</a>
+      <a class='wire-btn' ng-hide='$auth.user["is_mhp?"]' ui-sref='journalEntries.new'><img src='/assets/journal@2x.png' />Journal</a>
+
+      <section class='members' ng-class='{ "no-margin": $auth.user["is_mhp?"] }'>
+        <h4>Members</h4>
+        <ul class='clearfix'>
+          <li ng-repeat='member in userHome.newMembers'>
+            <a ui-sref='members.details({ id: member.id })'><img ng-src="{{ member.profile_pictures.square50 }}" /></a>
+          </li>
+        </ul>
+      </section>
+
+      <section class='experts'>
+        <h4>Experts</h4>
+        <ul class='clearfix'>
+          <li ng-repeat='member in userHome.newMhps'>
+            <a ui-sref='members.details({ id: member.id })'><img ng-src="{{ member.profile_pictures.square50 }}" /></a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+  </div>
+</div><!-- /.container -->
+

@@ -34,4 +34,19 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.mandrillapp.com',
+    port: 587,
+    user_name: 'joselito@unshamed.com',
+    password: 'DHoim_sIpKApk11o9dAsxQ'
+  }
+
+  Paperclip.options[:command_path] = "/usr/local/bin/"
+
+  config.logger = Logger.new(STDOUT)
+  config.logger.level = Logger.const_get(
+    ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'].upcase : 'DEBUG'
+  )
 end

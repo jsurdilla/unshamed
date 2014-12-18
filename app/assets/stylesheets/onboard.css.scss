@@ -1,0 +1,110 @@
+#onboard {
+  margin-top: 2rem;
+
+  .right-rail h1 { font-style: italic; text-align: center; }
+
+  .main-content > .row {
+    background-color: $bg-turquoise;
+    border: 1px solid $light-turquoise;
+    @include border-radius(2px);
+    padding: 0.25rem;
+    margin-bottom: 2rem;
+
+    h3 { color: $turquoise; line-height: 3rem; }
+
+    &.action {
+      background-color: transparent;
+      border: none;
+      padding: 0;
+    }
+  }
+
+  .form-group {
+    input, select, .profile-pic, textarea {
+      background-color: $input-bg;
+      border: 1px solid $input-border;
+      @include border-radius(0);
+      @include box-shadow(none);
+    }
+
+    textarea {
+      height: 6rem;
+    }
+
+    .profile-pic {
+      height: 150px;
+      width: 150px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        padding: 2.5px;
+      }
+    }
+  }
+
+  .struggles {
+    li a {
+      background-color: $bg-turquoise;
+      border: 1px solid $light-turquoise;
+      display: inline-block;
+      padding: 0.5rem 2rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $light-turquoise;
+        color: $dark-turquoise;
+        text-decoration: none;
+      }
+
+      &.selected {
+        background-color: $light-turquoise;
+        border-color: $dark-turquoise;
+        color: $dark-turquoise;
+      }
+    }
+  }
+
+  button.save {
+    margin-right: -10px;
+  }
+
+  form.ng-submitted {
+    input.ng-invalid, select.ng-invalid, div.ng-invalid select, textarea.ng-invalid {
+      border-color: $error-border;
+    }
+  }
+  input.ng-invalid-username {
+    border-color: $error-border;
+  }
+
+  .error {
+    color: $error-text;
+    font-size: $font-size-base;
+    margin-left: 4px;
+    margin-top: 1rem;
+  }
+}
+
+#user-birthdate {
+  select { display: inline-block; }
+  .month { width: 40%; }
+  .day { width: 20%; }
+  .year { width: 30%; }
+}
+
+.photo-picker {
+  background-color: rgba(0,0,0,0.4);
+
+  .modal-content {
+    @include border-radius(0);
+    border-color: rgba(0,0,0,.1);
+  }
+
+  .ng-image-crop {
+    margin-bottom: 50px;
+
+    button {
+    }
+  }
+}
