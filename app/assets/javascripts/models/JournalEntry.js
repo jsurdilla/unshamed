@@ -12,7 +12,11 @@ function JournalEntry($resource) {
     },
 
     update: {
-      method: 'PUT'
+      method: 'PUT',
+      transformResponse: function(data) {
+        var journalEntry = JSON.parse(data).journal_entry;
+        return journalEntry;
+      }
     }
   };
 

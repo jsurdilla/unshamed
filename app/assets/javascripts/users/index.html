@@ -1,35 +1,32 @@
 <div id='home-timeline' class="container">
-  <div class="row">
+  <div class='content-area'>
+    <div class='left-rail'>
+      <section class='connections'>
+        <h4>Connections</h4>
+        <ol class="list-unstyled">
+          <li ng-repeat='friend in userHome.friends'>
+            <img ng-src="{{ friend.profile_pictures.square50 }}" />
+            <a ui-sref='members.details({ id: friend.id })'>{{ friend.full_name }}</a>
+          </li>
+          <li ng-if='!userHome.friends.length'>
+            You have no connections yet. Why not say hello to someone?
+          </li>
+        </ol>
+      </section>
 
-    <div class="col-sm-3 sidebar">
-      <div class="connections">
-        <div class="panel panel-default">
-          <div class="panel-heading pop">Connections</div>
-          <div class="panel-body">
-            <ol class="list-unstyled">
-              <li ng-repeat='friend in userHome.friends'><img ng-src="{{ friend.profile_pictures.thumb }}" />
-                <a ui-sref='members.details({ id: friend.id })'>{{ friend.full_name }}</a>
-              </li>
-              <li ng-if='!userHome.friends.length'>
-                You have no connections yet. Why not say hello to someone?
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div>
-      <div class="resources">
-        <div class="panel panel-default">
-          <div class="panel-heading pop">Resources</div>
-          <div class="panel-body">
-            <ol class="list-unstyled">
-              <li ng-repeat='resource in userHome.resources'><a ng-href='{{ resource.url }}' target='resource'>{{ resource.title }}</a></li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div><!-- /.sidebar -->
+      <section class='resources'>
+        <h4>Resources</h4>
+        <ol class="list-unstyled">
+          <li ng-repeat='resource in userHome.resources' ng-class='resource.media_type'>
+            <a ng-href='{{ resource.url }}' target='resource'>{{ resource.title }}</a>
+          </li>
+        </ol>
+      </section>
+    </div>
 
-    <div class="col-sm-6">
+    <div class='timeline'>
+      <img class='hero' src='/assets/community.jpg' />
+
       <div id='status-update'>
         <textarea placeholder="How are you today?" ng-focus='userHome.statusUpdateActive = true' ng-model='userHome.newPost.body'></textarea>
         <div ng-show='userHome.statusUpdateActive' class='action clearfix'>
@@ -42,24 +39,31 @@
           <div ng-include="'timeline/' + item.type + '.html'"></div>
         </div>
       </div>
-    </div><!-- /.blog-main -->
+    </div>
 
-    <div class="col-sm-3 sidebar">
-      <div class="members">
-        <div class="panel panel-default">
-          <div class="panel-heading pop">Members</div>
-          <div class="panel-body">
-            <ol class="list-unstyled">
-              <li ng-repeat='member in userHome.newMembers'><img ng-src="{{ member.profile_pictures.thumb }}" />
-                <a ui-sref='members.details({ id: member.id })'>{{ member.full_name }}</a>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div><!-- /.sidebar -->
+    <div class='right-rail'>
+      <a class='top-link' ui-sref='conversations'><img src='/assets/speech-bubble@2x.png'  />Messages</a>
+      <a class='top-link' ui-sref='journalEntries.new'><img src='/assets/journal@2x.png' />Journal</a>
 
-  </div><!-- /.row -->
+      <section class='members'>
+        <h4>Members</h4>
+        <ul class='clearfix'>
+          <li ng-repeat='member in userHome.newMembers'>
+            <a ui-sref='members.details({ id: member.id })'><img ng-src="{{ member.profile_pictures.square50 }}" /></a>
+          </li>
+        </ul>
+      </section>
 
+      <section class='experts'>
+        <h4>Experts</h4>
+        <ul class='clearfix'>
+          <li ng-repeat='member in userHome.newMembers'>
+            <a ui-sref='members.details({ id: member.id })'><img ng-src="{{ member.profile_pictures.square50 }}" /></a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+  </div>
 </div><!-- /.container -->
 

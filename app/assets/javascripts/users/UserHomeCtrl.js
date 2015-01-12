@@ -10,21 +10,21 @@ function usNewCommentKeypress(Comment) {
     element.bind("keypress", function (event) {
       if (event.which === 13) {
         scope.$apply(function() {
-          var post = scope.$eval(attrs.post);
-          if (post.newComment && post.newComment.trim() !== "") {
+          var item = scope.$eval(attrs.item);
+          if (item.newComment && item.newComment.trim() !== "") {
              var newComment = new Comment({
-               comment: post.newComment,
-               commentable_id: post.id,
-               commentable_type: 'Post'
+               comment: item.newComment,
+               commentable_id: item.id,
+               commentable_type: item.type
              });
 
              Comment.save({ comment: newComment }, function(data) {
-               post.newComment = "";
+               item.newComment = "";
 
                var comment = new Comment(data.comment);
                comment.updateUpdatedAtFriendlyText();
-               post.comments = post.comments || [];
-               post.comments.push(comment);
+               item.comments = item.comments || [];
+               item.comments.push(comment);
              });
 
             event.preventDefault();
@@ -54,7 +54,7 @@ function UserHomeCtrl($scope, Me, User, Friend, Resource, Post, Comment, Support
 
       var post = new Post(post.post);
       post.updateUpdatedAtFriendlyText();
-      vm.posts.splice(0, 0, post);
+      vm.items.splice(0, 0, post);
     });
   };
 
@@ -95,9 +95,8 @@ function UserHomeCtrl($scope, Me, User, Friend, Resource, Post, Comment, Support
 
   $(function() {
     setTimeout(function() {
-    $('#status-update textarea').flexible();
-    $('.post .actions textarea').flexible();
-    }, 2000);
+      $('#status-update textarea').flexible();
+    }, 1000);
   });
 
   $scope.$on('$destroy', function() {
@@ -124,23 +123,22 @@ function UserHomeCtrl($scope, Me, User, Friend, Resource, Post, Comment, Support
       var items = data.items;
       vm.items = vm.items.concat(items);
 
-      // Comment.query({ post_ids: _.pluck(data.posts, 'id').join(',') }).$promise.then(function(data) {
-      //   var postComments = {};
-      //   var comments = _.map(data.comments, function(comment) {
-      //     comment = new Comment(comment);
-      //     if (comment.commentable_type === 'Post') {
-      //       postComments[comment.commentable_id] = postComments[comment.commentable_id] || [];
-      //       postComments[comment.commentable_id].push(comment);
-      //     }
-      //     return comment;
-      //   });
+      var byType = _.groupBy(vm.items, 'type'),
+          postIds = _.pluck(byType.Post, 'id').join(','),
+          journalEntryIds = _.pluck(byType.JournalEntry, 'id').join(',');
 
-      //   _.forEach(posts, function(post) {
-      //     post.comments = postComments[post.id];
-      //   })
+      Comment.query({ post_ids: postIds, journal_entry_ids: journalEntryIds, preview: true }).$promise.then(function(data) {
+        _.each(data.items, function(item) {
+          var existingItem = _.find(items, function(item2) {
+            return item.id === item2.id && item.type === item2.type;
+          });
+          if (existingItem) {
+            existingItem.comments = item.comments;
+            updateCommentUpdatedAt(existingItem.comments);
+          }
+        });
 
-      //   updateCommentUpdatedAt(comments);
-      // });
+      });
 
       updatePostUpdatedAt(items);
 
@@ -156,7 +154,7 @@ function UserHomeCtrl($scope, Me, User, Friend, Resource, Post, Comment, Support
 
   function updateCommentUpdatedAt(comments) {
     _.each(comments, function(comment) {
-      comment.updateUpdatedAtFriendlyText();
+      comment.updated_at_friendly = moment(comment.updated_at).fromNow();
     });
   }
 

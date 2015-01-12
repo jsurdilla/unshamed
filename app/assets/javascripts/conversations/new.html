@@ -1,0 +1,18 @@
+<form name='convoForm'>
+
+  <div class='recipients'>
+    <label>To</label>
+    <tags-input ng-model="convoNew.draft.users" add-from-autocomplete-only='true' replace-spaces-with-dashes='false' ng-required='true' placeholder="Friend's Name" at-least-one>
+      <auto-complete source="convoNew.getRecipients($query)"></auto-complete>
+    </tags-input>
+  </div>
+
+  <div class='reply'>
+    <textarea placeholder="Write a message..." ng-model='convoNew.draft.body' ng-required='true'></textarea>
+    <div class='action clearfix'>
+      <button class='btn btn-sm btn-primary pull-right' ng-disabled='convoForm.$invalid || convoNew.processing' ng-click='convoNew.sendMessage()'>
+        {{ convoNew.sendButtonText }}
+      </button>
+    </div>
+  </div>
+</form>

@@ -13,23 +13,32 @@ function Conversation($resource) {
       return new Conversation(conversation);
     });
 
-    return { conversations: conversations };
+    return conversations;
   };
 
 
   var customActions = {
-    inbox: {
+    get: {
       method: 'GET',
       isArray: false,
-      params: { verb: 'inbox' },
+      transformResponse: function(data) {
+        return new Conversation(JSON.parse(data).conversation);
+      }
+    },
+
+    query: {
+      method: 'GET',
+      isArray: true,
       transformResponse: makeIntoConversationsArray
     },
 
-    sentbox: {
+    recipientAutocomplete: {
       method: 'GET',
       isArray: false,
-      params: { verb: 'sentbox' },
-      transformResponse: makeIntoConversationsArray
+      params: { verb: 'recipient_autocomplete' },
+      transformResponse: function(data) {
+        return new Conversation(JSON.parse(data));
+      }
     },
 
     reply: {

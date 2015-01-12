@@ -8,7 +8,7 @@ class Api::V1::MeController < ApplicationController
     @journal_entries = JournalEntry.where(['updated_at >= ?', @posts.map(&:updated_at).min])
 
     @items = (@posts + @journal_entries).sort_by(&:updated_at).reverse
-    render action: '../timelines/show'
+    render template: '/api/v1/timelines/show'
   end
 
   def onboard

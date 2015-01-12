@@ -13,24 +13,24 @@ class Api::V1::JournalEntriesController < ApplicationController
   def update
     @journal_entry = current_user.journal_entries.find(params[:id])
     if @journal_entry.update(journal_params)
-      head :ok
+      render action: :show
     else
       render json: { errors: @journal_entry.errors }, status: :unprocessable_entity
     end
   end
 
   def create
-    journal_entry = JournalEntry.new(journal_params)
-    journal_entry.user = current_user
+    @journal_entry = JournalEntry.new(journal_params)
+    @journal_entry.user = current_user
 
     if params[:journal_entry][:published] === true
-      journal_entry.published_at = Time.now
+      @journal_entry.published_at = Time.now
     end
 
-    if journal_entry.save
-      head :created
+    if @journal_entry.save
+      render action: :show, status: :created
     else
-      render json: { errors: journal_entry.errors }, status: :unprocessable_entity
+      render json: { errors: @journal_entry.errors }, status: :unprocessable_entity
     end
   end
 
@@ -40,6 +40,7 @@ class Api::V1::JournalEntriesController < ApplicationController
     params.require(:journal_entry).permit(
       :title,
       :body,
+      :posted_at,
       :public
     )
   end

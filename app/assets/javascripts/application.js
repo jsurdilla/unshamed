@@ -29,6 +29,9 @@
 //= require ng-file-upload/angular-file-upload
 //= require angular-image-crop/image-crop
 //= require ng-token-auth/dist/ng-token-auth
+//= require ng-tags-input/ng-tags-input
+//= require pusher/dist/pusher
+//= require pusher-angular/lib/pusher-angular
 //= require underscore.string/lib/underscore.string
 //
 //= require angular-rails-templates

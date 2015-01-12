@@ -1,7 +1,7 @@
-json.(message, :body)
+json.(message, :body, :created_at)
 json.sender do
-  json.(message.sender, :first_name, :last_name, :full_name)
+  json.(message.sender, :id, :first_name, :last_name, :full_name)
   json.profile_pictures do
-    json.thumb message.sender.profile_picture(:thumb)
+    json.square50 message.sender.profile_picture(:square50)
   end
 end

@@ -39,7 +39,7 @@
           <div class="panel-heading pop">Connections</div>
           <div class="panel-body">
             <ol class="list-unstyled">
-              <li ng-repeat='friend in member.user.friends'><img ng-src="{{ friend.profile_pictures.thumb }}" />
+              <li ng-repeat='friend in member.user.friends'><img ng-src="{{ friend.profile_pictures.square50 }}" />
                 <a ui-sref='members.details({ id: friend.id })'>{{ friend.full_name }}</a>
               </li>
               <li ng-if='!member.user.friends.length'>

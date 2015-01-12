@@ -6,6 +6,6 @@ json.has_pending_friend_request !FriendshipRequest.identical_request(current_use
 json.friends user.friends.limit(10), partial: 'api/v1/shared/user_default', as: :user
 
 json.profile_pictures do
-  json.thumb user.profile_picture(:thumb)
+  json.square50 user.profile_picture(:square50)
   json.medium user.profile_picture(:medium)
 end

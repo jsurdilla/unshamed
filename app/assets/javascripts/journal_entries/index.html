@@ -1,15 +1,64 @@
 <div id='journal-entries' class='container'>
   <div class='row'>
-    <ol class="breadcrumb">
-      <li>My Journal</li>
-      <li><a ui-sref='journalEntries.show({ id: null })'>New Entry</a></li>
-    </ol>
-  </div>
-  <div class='row'>
-    <ul>
-      <li ng-repeat='entry in journalEntries.entries'>
-        <a ui-sref='journalEntries.show({ id: entry.id })'>{{ entry.title }}</a>
-      </li>
-    </ul>
+    <div class='col-md-3 sidebar'>
+      <a class='top-link' ui-sref='journalEntries.new'><img src='/assets/compose@2x.png' />New Journal Entry</a>
+
+      <section class='entries-list'>
+        <h4>Most Recent</h4>
+        <ul>
+          <li ng-repeat='entry in journalEntrySvc.entries | limitTo:7' ui-sref-active='active' ng-class='{ public: entry.public }'>
+            <a ui-sref='journalEntries.show({ id: entry.id })'>
+              <div>
+                <div class='title' ng-bind='entry.title'></div>
+                <span class='posted-at' ng-bind='entry.posted_at | date:"MMM dd, yyyy"'></span>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <div class='col-md-9 main-content' ng-controller='JournalEntryEditCtrl as entryEditor'>
+      <div class='last-saved' ng-show='journalEntrySvc.current.updated_at'>Last saved at {{ journalEntrySvc.current.updated_at | date:'shortTime' }}</div>
+      <div class='last-saved' ng-show='!journalEntrySvc.current.updated_at'>Unsaved</div>
+      <div class='row actions'>
+        <div class='col-md-4'>
+          <div class='datepicker'>
+            <input type="hidden" class="form-control"
+              datepicker-popup="{{ entryEditor.format }}"
+              ng-model="journalEntrySvc.current.posted_at"
+              is-open="entryEditor.opened"
+              min-date="entryEditor.minDate"
+              max-date="'2015-06-22'"
+              datepicker-options="entryEditor.dateOptions"
+              date-disabled="entryEditor.disabled(date, mode)"
+              ng-required="true"
+              close-text="Close" />
+
+            <input type="image" src='/assets/calendar@2x.png' ng-click='entryEditor.open($event)' class='date-picker' />
+            <span ng-bind='journalEntrySvc.current.posted_at | date:"MMM dd, yyyy"'></span>
+          </div>
+        </div>
+        <div class='col-md-4 col-md-offset-4'>
+          <div class='pull-right'>
+            <div>
+              <a ng-click='journalEntrySvc.saveCurrent()'><img src='/assets/save@2x.png' />Save</a>
+              <a ng-click='journalEntrySvc.current.public = !journalEntrySvc.current.public'>
+                <img ng-src='/assets/{{ journalEntrySvc.current.public ? "unlocked" : "locked" }}-filled@2x.png' />
+                {{  journalEntrySvc.current.public ? "Public" : "Private"  }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class='row'>
+        <div class='col-md-12 medium-editor-section'>
+          <h1 ng-model='journalEntrySvc.current.title' medium-editor options='{{ entryEditor.mediumEditor.titleOptions }}'></h1>
+          <p ng-model='journalEntrySvc.current.body' medium-editor options='{{ entryEditor.mediumEditor.bodyOptions }}'></p>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>

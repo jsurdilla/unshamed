@@ -1,17 +1,28 @@
-<div id='convo-details' class="col-xs-12 col-sm-10">
-  <ul class='list-unstyled messages'>
-    <li ng-repeat='message in convoShow.convo.messages'>
-      <strong>{{ message.sender.full_name }}</strong><br />
-      {{ message.body }}
-    </li>
-  </ul>
+<header>
+  <h3 ng-bind='convoShow.participantsInHeaderFormat()'></h3>
+</header>
 
-  <div id='reply'>
-    <form role="form" ng-submit='convoShow.postReply()' name='convoShow.replyForm' novalidate>
-      <textarea placeholder='Your reply' ng-model='convoShow.reply.body' ng-required='true'></textarea>
-      <div class='action clearfix'>
-        <button class='btn btn-sm btn-primary pull-right' ng-disabled='!convoShow.canPostReply()' ng-click='convoShow.postReply()'>Send Reply</button>
+<ul class='messages' scroll-to-bottom='convoShow.lastMessageAddedAt'>
+  <li ng-repeat='section in convoShow.sections' class='clearfix section'>
+    <h4 ng-show='section.newDay'>{{ section.timestamp.toDate() | date:'mediumDate' }}</h4>
+
+    <div class='profile-pic'>
+      <img ng-src='{{ section.messages[0].sender.profile_pictures.square50 }}' />
+    </div>
+    <div class='msgs'>
+      <div ng-repeat='message in section.messages' class='clearfix msg'>
+        <div class='time'>{{ message.sentAt.toDate() | date:'shortTime' }}</div>
+        <div class='body'>{{ message.body }}</div>
       </div>
-    </form>
-  </div>
-</div><!-- /.col-xs-12 main -->
+    </div>
+  </li>
+</ul>
+
+<div class='reply'>
+  <form role="form" ng-submit='convoShow.postReply()' name='convoShow.replyForm' novalidate>
+    <textarea placeholder='Your reply' ng-model='convoShow.reply.body' ng-required='true'></textarea>
+    <div class='action clearfix'>
+      <button class='btn btn-sm btn-primary pull-right' ng-disabled='!convoShow.canPostReply()' ng-click='convoShow.postReply()'>Send Reply</button>
+    </div>
+  </form>
+</div>

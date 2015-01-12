@@ -3,7 +3,13 @@ class Api::V1::CommentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @comments = Comment.for_post_ids(params[:post_ids].split(',')) if params[:post_ids]
+    if params[:preview]
+      comment_svc = CommentSvc.new(post_ids: params[:post_ids].split(','), journal_entry_ids: params[:journal_entry_ids].split(','))
+      @comments = comment_svc.comments
+      render partial: 'preview'
+    else
+      @comments = Comment.for_post_ids(params[:post_ids].split(',')) if params[:post_ids]
+    end
   end
 
   def create

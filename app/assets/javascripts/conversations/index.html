@@ -1,14 +1,24 @@
 <div id='conversations' class='container'>
+  <div class='wrapper'>
 
-  <div class='row'>
-    <div class="col-xs-4 col-sm-2 sidebar-offcanvas sidebar" role="navigation">
-      <ul class="nav">
-        <li ui-sref-active='active'><a ui-sref=".inbox">Inbox</a></li>
-        <li ui-sref-active='active'><a ui-sref=".sentbox">Sent</a></li>
-        <li ui-sref-active='active'><a ui-sref=".trash">Trash</a></li>
-      </ul>
+    <div class='row'>
+        <div class="col-md-4 sidebar-offcanvas left-panel">
+          <header>
+            <a class="top-link" ui-sref="conversations.new"><img src="/assets/compose@2x.png">New Message</a>
+          </header>
+          <ul class='conversations-list'>
+            <li ng-repeat='convo in convos.conversations' ng-class='{ unread: !convo.read, read: convo.read }' ui-sref-active='current'>
+              <a ui-sref='conversations.show({ id: convo.id })'>
+                <div class='participants' ng-bind='convo.partipantsDisplayText()'></div>
+                <div class='last-message' ng-bind='convo.most_recent_message'></div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-8 main-panel" >
+          <div ui-view='details'>
+        </div>
+      </div>
     </div>
-
-    <div ui-view='details'></div>
-  </div>
+  </div><!-- row -->
 </div>

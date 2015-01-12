@@ -30,7 +30,7 @@ module Overrides
         )
 
         json.profile_pictures do
-          json.thumb user.profile_picture(:thumb)
+          json.square50 user.profile_picture(:square50)
           json.medium user.profile_picture(:medium)
         end
       end.target!

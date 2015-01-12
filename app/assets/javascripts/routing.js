@@ -1,10 +1,7 @@
 'use strict';
 
 angular.module('unshamed')
-
-  .run(['$rootScope', '$auth', function($rootScope, $auth) {
-    $rootScope.$auth = $auth;
-  }])
+  .run(conversationRedirect)
 
   // TODO: check to see if this can be moved with the rest of the routes.
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -34,17 +31,18 @@ angular.module('unshamed')
       .state('authenticated', {
         template: '<ui-view/>',
         resolve: {
-          auth: ['$auth', '$state', function($auth, $state) {
-             return $auth.validateUser().then(function(user) {
-               console.log('...', user.onboarded);
-               if (!$auth.user.onboarded) {
-                 console.log('GO TO ONBOARD');
-                 $state.go('onboard', { skipCheck: true });
-               }
-               return user;
-             }, function error() {
-               $state.go('start');
-             });
+          auth: ['$auth', '$state', '$q', function($auth, $state, $q) {
+            var deferred = $q.defer();
+            $auth.validateUser().then(function(user) {
+              if (!$auth.user.onboarded) {
+                $state.go('onboard', { skipCheck: true });
+              }
+              deferred.resolve(user);
+            }, function error() {
+              deferred.reject();
+              $state.go('start');
+            });
+            return deferred.promise;
           }]
         }
       })
@@ -99,9 +97,11 @@ angular.module('unshamed')
         controllerAs: 'member'
       })
 
-      .state('journalEntries', {
-        url: '/journal_entries',
-        templateProvider: ['$templateCache', function($templateCache) {
+      .state ('journalEntries', {})
+
+      .state('journalEntries.new', {
+        url: '/journal_entries/new',
+        templateProvider: ['$templateCache', '$rootScope', function($templateCache, $rootScope) {
           return $templateCache.get('journal_entries/index.html');
         }],
         parent: 'authenticated',
@@ -111,13 +111,13 @@ angular.module('unshamed')
 
       .state('journalEntries.show', {
         url: '/journal_entries/:id',
-        templateProvider: ['$templateCache', function($templateCache) {
-          return $templateCache.get('journal_entries/show.html');
+        templateProvider: ['$templateCache', '$rootScope', function($templateCache, $rootScope) {
+          return $templateCache.get('journal_entries/index.html');
         }],
         resolve: {
           journalEntry: ['JournalEntry', '$stateParams', '$q', function(JournalEntry, $stateParams, $q) {
             if ($stateParams.id) {
-              return JournalEntry.get({ id: $stateParams.id });
+              return JournalEntry.get({ id: $stateParams.id }).$promise;
             }
             return null;
           }]
@@ -127,33 +127,38 @@ angular.module('unshamed')
         controllerAs: 'journalEntry'
       })
 
-      .state('convos', {
+      .state('conversations', {
         url: '/conversations',
         templateProvider: ['$templateCache', function($templateCache) {
           return $templateCache.get('conversations/index.html');
         }],
+        resolve: {
+          conversations: ['convoSvc', function(convoSvc) {
+            return convoSvc.getMostRecent();
+          }]
+        },
         parent: 'authenticated',
         controller: 'ConversationsIndexCtrl',
         controllerAs: 'convos'
       })
 
-      .state('convos.inbox', {
-        url: '/inbox',
+      .state('conversations.new', {
+        url: '/new',
         views: {
-          details: {
+          'details@conversations': {
             templateProvider: ['$templateCache', function($templateCache) {
-              return $templateCache.get('conversations/inbox.html');
+              return $templateCache.get('conversations/new.html');
             }],
-            controller: 'ConversationsInboxCtrl',
-            controllerAs: 'inbox'
+            controller: 'ConversationsNewCtrl',
+            controllerAs: 'convoNew'
           }
         }
       })
 
-      .state('convos.inbox.show', {
+      .state('conversations.show', {
         url: '/:id',
         views: {
-          'details@convos': {
+          'details@conversations': {
             templateProvider: ['$templateCache', function($templateCache) {
               return $templateCache.get('conversations/show.html');
             }],
@@ -164,41 +169,7 @@ angular.module('unshamed')
         resolve: {
           convo: ['Conversation', '$stateParams', '$q', function(Conversation, $stateParams, $q) {
             if ($stateParams.id) {
-              return Conversation.get({ id: $stateParams.id });
-            }
-            return null;
-          }]
-        }
-      })
-
-      .state('convos.sentbox', {
-        url: '/conversations/sentbox',
-        views: {
-          details: {
-            templateProvider: ['$templateCache', function($templateCache) {
-              return $templateCache.get('conversations/sentbox.html');
-            }],
-            controller: 'ConversationsSentboxCtrl',
-            controllerAs: 'sentbox'
-          }
-        }
-      })
-
-      .state('convos.sentbox.show', {
-        url: '/:id',
-        views: {
-          'details@convos': {
-            templateProvider: ['$templateCache', function($templateCache) {
-              return $templateCache.get('conversations/show.html');
-            }],
-            controller: 'ConversationsShowCtrl',
-            controllerAs: 'convoShow'
-          }
-        },
-        resolve: {
-          convo: ['Conversation', '$stateParams', '$q', function(Conversation, $stateParams, $q) {
-            if ($stateParams.id) {
-              return Conversation.get({ id: $stateParams.id });
+              return Conversation.get({ id: $stateParams.id }).$promise;
             }
             return null;
           }]
@@ -206,3 +177,18 @@ angular.module('unshamed')
       })
 
   }]);
+
+conversationRedirect.$inject = ['$rootScope', '$state', 'convoSvc'];
+function conversationRedirect($rootScope, $state, convoSvc) {
+  $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+    if (toState.name === 'conversations') {
+      e.preventDefault();
+      var lastConversationID = convoSvc.lastConversationID();
+      if (convoSvc.lastConversationID()) {
+        $state.go('conversations.show', { id: lastConversationID });
+      } else {
+        $state.go('conversations.new', { reload: true });
+      }
+    }
+  });
+};

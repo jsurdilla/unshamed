@@ -17,7 +17,7 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
   <%= csrf_meta_tags %>
 </head>
-<body ng-app='unshamed'>
+<body ng-app='unshamed' ng-init="pusherKey='<%= Pusher.key -%>'">
   <%= yield %>
 </body>
 </html>

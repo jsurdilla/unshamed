@@ -8,6 +8,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1, defaults: { format: 'json' } do
+
+      post 'pusher/auth' => 'pusher#auth'
+
       resource :me, controller: 'me' do
         member do
           get :timeline
@@ -45,8 +48,7 @@ Rails.application.routes.draw do
       resources :conversations do
         collection do
           get :inbox
-          get :sentbox
-          get :trash
+          get :recipient_autocomplete
         end
 
         member do

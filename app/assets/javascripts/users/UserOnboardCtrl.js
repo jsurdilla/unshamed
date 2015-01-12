@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('unshamed')
-  .directive('atLeastOne', atLeastOne)
   .directive('uniqueUsername', uniqueUsername)
   .controller('PhotoPickerModalCtrl', PhotoPickerModalCtrl)
   .controller('UserOnboardCtrl', UserOnboardCtrl);
@@ -25,17 +24,6 @@ function uniqueUsername(User, $q) {
 
         return def.promise;
       };
-    }
-  };
-};
-
-function atLeastOne() {
-  return {
-    require: 'ngModel',
-    link: function(scope, elem, attrs, ngModel) {
-      scope.$watchCollection(attrs.ngModel, function(value) {
-        ngModel.$setValidity('atLeastOne', value && value.length != 0);
-      });
     }
   };
 };
@@ -76,6 +64,7 @@ function UserOnboardCtrl($scope, User, $modal, $templateCache, $upload, $statePa
       url: '/api/v1/me/onboard',
       method: 'PUT',
       file: dataURItoBlob(vm.croppedPhoto),
+      fileName: 'profile.png',
       data: { user: vm.user }
     }).success(function(data) {
       $auth.user = data.user;

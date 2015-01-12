@@ -1,34 +1,41 @@
 <div class='header'>
-  <img class='author-pic' ng-src="{{ item.author.profile_pictures.thumb }}" />
-  <span class='right-of-author-pic'>
+  <img class='author-pic' ng-src="{{ item.author.profile_pictures.square50 }}" />
+  <div>
     <a class='name' href='#'>{{ item.author.full_name }}</a>
-    <span class='time'>{{ item.updated_at_friendly }}</span>
-  </span>
+    <div class='time'>{{ item.updated_at_friendly }}</div>
+  </div>
 </div>
 
 <div class='body'>
-  {{ item.body }}
+  <div class='content'>
+    {{ item.body }}
+  </div>
 
-  <br /><br />
-  <a href='' ng-click='userHome.supportPost(item)'>Support</a>
+  <a class='support' ng-click='userHome.supportPost(item)'>Support</a>
+</div>
+
+<div class='props-count'>
   <span>{{ item.support_count }} Support</span>
 </div>
 
 <div class='actions clearfix'>
-  <img ng-src="{{ $auth.user.profile_pictures.thumb }}" />
-  <textarea ng-model='item.newComment' us-new-comment-keypress post='post'></textarea>
-</div>
-<ul class='comments list-unstyled'>
-  <li ng-repeat='comment in item.comments'>
-    <div>
-      <img ng-src="{{ comment.author.profile_pictures.thumb }}" />
-      <div class='name-time-body'>
-        <div class='name-time'>
-          <span class='name'>{{ comment.author.full_name }}</span><br />
-          <span class='time'>{{ comment.updated_at_friendly }}</span>
-        </div>
-        <span class='comment-body'>{{ comment.comment }}<span>
+  <ul class='comments' ng-show='item.comments.length > 0'>
+    <li ng-repeat='comment in item.comments' class='clearfix'>
+      <img ng-src="{{ comment.author.profile_pictures.square50 }}" />
+      <div class='name-time'>
+        <span class='name'>{{ comment.author.full_name }}</span><br />
+        <span class='time'>{{ comment.updated_at_friendly }}</span>
       </div>
+      <div class='comment-body'>{{ comment.comment }}<div>
+    </li>
+  </ul>
+
+  <div class='new-comment'>
+    <div class='pic'>
+      <img ng-src="{{ $auth.user.profile_pictures.square50 }}" />
     </div>
-  </li>
-</ul>
+    <div class='comment-box'>
+      <textarea ng-model='item.newComment' us-new-comment-keypress item='item' placeholder='Write a comment...'></textarea>
+    </div>
+  <div>
+</div>

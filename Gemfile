@@ -61,5 +61,7 @@ gem "paperclip", "~> 4.2"
 gem 'aasm'
 gem 'pry'
 gem 'mailboxer'
+gem 'pusher'
+gem 'yajl-ruby', require: 'yajl'
 
 ruby "2.1.3"
