@@ -3,11 +3,22 @@ class Api::V1::MeController < ApplicationController
   before_action :authenticate_user!
 
   def timeline
-    user_ids = current_user.friends.map(&:id) + [current_user.id]
-    @posts           = Post.where(author_id: user_ids).order('created_at DESC').page(params[:page]).per(20)
-    @journal_entries = JournalEntry.where(['updated_at >= ?', @posts.map(&:updated_at).min])
+    type_id_pairs = RedisCache::HomeTimeline.new(current_user.struggles).items(params[:page])
+    grouped = type_id_pairs.inject({}) do |memo, pair|
+      item_type, item_id = pair.split(':')
+      (memo[item_type] ||= []) << item_id
+      memo
+    end
 
-    @items = (@posts + @journal_entries).sort_by(&:updated_at).reverse
+    @posts           = Post.where(id: grouped['post']) if grouped['post']
+    @journal_entries = JournalEntry.where(id: grouped['journal_entry']) if grouped['journal_entry']
+
+    @items = [@posts, @journal_entries].flatten.compact.inject({}) do |memo, item|
+      memo["#{item.class.name.underscore}:#{item.id}"] = item
+      memo
+    end
+
+    @items = type_id_pairs.map { |pair| @items[pair] }
     render template: '/api/v1/timelines/show'
   end
 

@@ -1,0 +1,134 @@
+@import "base";
+
+#member-details {
+  .user-pic {
+    img { width: 100%; }
+  }
+
+  .friend-req {
+    margin-top: 1rem;
+
+    button { @include border-radius(20px); font-size: 1rem; width: 100%; }
+  }
+
+  .user-info {
+    margin-top: 2rem;
+
+    .name { margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600; }
+    span.imp { font-weight: bold; }
+  }
+
+  .left-rail, .right-rail { @include make-sm-column(3); }
+
+  .timeline {
+    @include make-md-column(6);
+
+    #status-update {
+      border: 1px solid $border-turquoise;
+      margin-bottom: 20px;
+
+      .textarea-wrapper { margin: 3px; }
+      textarea {
+        @include box-sizing(border-box);
+        @include border-top-left-radius(3px);
+        @include border-top-right-radius(3px);
+        border: none;
+        width: 100%;
+        outline: none;
+        padding: 0.75em 0.75em 0 0.75em;
+      }
+      .action {
+        $bg-turquoise: #F9FBFC;
+        border-top: 1px solid $border-turquoise;
+        padding: 3px;
+      }
+    }
+
+    div.post, div.journal_entry {
+      border: 1px solid $border-turquoise;
+      margin-bottom: 20px;
+
+      .header { border-bottom: 1px solid $border-turquoise; padding: 4px; }
+      .body { border-bottom: 1px solid $border-turquoise; padding: 8px; }
+
+      .author-pic { width: 50px; height: 50px; }
+      .author-pic + div {
+        margin-left: 10px;
+        display: inline-block;
+        vertical-align: middle;
+
+        .name { color: $turquoise; font-weight: 600; }
+        .time { font-size: 0.9rem; font-style: italic; }
+      }
+
+      a.support { color: $red-link; cursor: pointer; display: inline-block; margin-top: 1rem; text-decoration: none; font-weight: bold; }
+
+      .props-count {
+        border-bottom: 1px solid $border-turquoise;
+        padding: 0.5rem;
+      }
+
+      .actions {
+        .new-comment {
+          .pic { margin: 6px; float: left; width: 40px; }
+
+          .comment-box {
+            background-color: $bg-turquoise;
+            border-left: 1px solid $border-turquoise;
+            overflow: hidden;
+
+            textarea {
+              border: none;
+              padding: 6px;
+              width: 100%;
+              min-height: 50px;
+
+              &:focus { outline:0 !important; }
+            }
+          }
+        }
+
+        .comments {
+          border-bottom: 1px solid $border-turquoise;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+
+          li {
+            border-bottom: 1px solid $border-turquoise;
+            &:last-child { border-bottom: none; }
+            margin: 6px;
+            padding-bottom: 6px;
+
+            > img { float: left; }
+
+            .name-time { float: left; padding: 0 8px;  display: inline-block; vertical-align: top; }
+            .name { font-weight: bold; color: $turquoise; }
+            .time { font-size: 0.9rem; font-style: italic; }
+
+            .comment-body { overflow: hidden; }
+          }
+        }
+
+        .commenter-pic { width: 50px; height: 50px; padding-right: 8px; border-right: 1px solid $border-turquoise; }
+        .commenter-pic + div { display: inline-block; vertical-align: middle; }
+      }
+    }
+
+    div.journal_entry {
+      .content {
+        .journal-icon {
+          float: left;
+          width: 18px;
+          margin-top: 0.5rem;
+        }
+        .journal-icon + div {
+          overflow: hidden;
+          padding-left: 0.5rem;
+
+          .entry-body { border-left: 2px solid $turquoise; padding-left: 0.5rem; }
+        }
+      }
+    }
+  }
+}

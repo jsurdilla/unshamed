@@ -11,13 +11,10 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap-sprockets
 //= require lodash/dist/lodash
 //= require moment/moment
 //
 //= require angular/angular
-//= require angular-bootstrap/ui-bootstrap
-//= require angular-bootstrap/ui-bootstrap-tpls
 //= require angular-cookie/angular-cookie
 //= require angular-flippy/dist/js/flippy.js
 //= require angular-input-match/dist/angular-input-match

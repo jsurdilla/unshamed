@@ -4,41 +4,9 @@ angular.module('unshamed')
   .directive('usNewCommentKeypress', usNewCommentKeypress)
   .controller('UserHomeCtrl', UserHomeCtrl);
 
-usNewCommentKeypress.$inject = ['Comment'];
-function usNewCommentKeypress(Comment) {
-  return function (scope, element, attrs) {
-    element.bind("keypress", function (event) {
-      if (event.which === 13) {
-        scope.$apply(function() {
-          var item = scope.$eval(attrs.item);
-          if (item.newComment && item.newComment.trim() !== "") {
-             var newComment = new Comment({
-               comment: item.newComment,
-               commentable_id: item.id,
-               commentable_type: item.type
-             });
 
-             Comment.save({ comment: newComment }, function(data) {
-               item.newComment = "";
-
-               var comment = new Comment(data.comment);
-               comment.updateUpdatedAtFriendlyText();
-               item.comments = item.comments || [];
-               item.comments.push(comment);
-             });
-
-            event.preventDefault();
-          } else {
-            // no-op
-          }
-        });
-      }
-    });
-  };
-};
-
-UserHomeCtrl.$inject = ['$scope', 'Me', 'User', 'Friend', 'Resource', 'Post', 'Comment', 'Support', '$auth'];
-function UserHomeCtrl($scope, Me, User, Friend, Resource, Post, Comment, Support, $auth) {
+UserHomeCtrl.$inject = ['$scope', 'Me', 'User', 'Friend', 'Resource', 'Post', 'Comment', 'Support', '$auth', 'pusherHelperSvc'];
+function UserHomeCtrl($scope, Me, User, Friend, Resource, Post, Comment, Support, $auth, pusherHelperSvc) {
   var vm = this,
       currentPage = 0;
 
@@ -158,4 +126,46 @@ function UserHomeCtrl($scope, Me, User, Friend, Resource, Post, Comment, Support
     });
   }
 
+
+  // PRIVATE
+  pusherHelperSvc.subscribeToNewFriendReq(function(data) {
+    console.log('NEW FRIEND REQ', data);
+    // TODO - pull this out
+    // $scope.$root.friendReqCount = data.count;
+  });
+
+};
+
+
+usNewCommentKeypress.$inject = ['Comment'];
+function usNewCommentKeypress(Comment) {
+  return function (scope, element, attrs) {
+    element.bind("keypress", function (event) {
+      if (event.which === 13) {
+        scope.$apply(function() {
+          var item = scope.$eval(attrs.item);
+          if (item.newComment && item.newComment.trim() !== "") {
+             var newComment = new Comment({
+               comment: item.newComment,
+               commentable_id: item.id,
+               commentable_type: item.type
+             });
+
+             Comment.save({ comment: newComment }, function(data) {
+               item.newComment = "";
+
+               var comment = new Comment(data.comment);
+               comment.updateUpdatedAtFriendlyText();
+               item.comments = item.comments || [];
+               item.comments.push(comment);
+             });
+
+            event.preventDefault();
+          } else {
+            // no-op
+          }
+        });
+      }
+    });
+  };
 };

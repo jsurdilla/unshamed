@@ -28,7 +28,12 @@ Rails.application.routes.draw do
         end
 
         delete 'friendship_requests' => 'friendship_requests#destroy'
-        resources :friendship_requests
+        resources :friendship_requests do
+          collection do
+            post :accept
+            post :reject
+          end
+        end
 
         delete 'friendships' => 'friendships#destroy'
       end

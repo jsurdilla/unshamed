@@ -25,6 +25,5 @@
   },
   "_source": "git://github.com/pusher/pusher-js.git",
   "_target": "~2.2.3",
-  "_originalSource": "pusher",
-  "_direct": true
+  "_originalSource": "pusher"
 }

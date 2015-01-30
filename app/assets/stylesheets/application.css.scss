@@ -1,12 +1,53 @@
-/*
- *= require angular-flippy/dist/css/flippy
- *= require angular-flippy/dist/css/flippy-fancy
- *= require angular-image-crop/image-crop-styles
- *= require medium-editor/dist/css/medium-editor
- *= require medium-editor/dist/css/themes/default
- *= require ng-tags-input/ng-tags-input
- *
- *= require_self
- *= require_tree .
- */
+// global colors
+$turquoise: #31AB9E;
+$bg-turquoise: #F9FBFC;
+$light-bg: #F9FBFC;
+$light-turquoise: #A6D9D5;
+$dark-turquoise: #156B62;
+$border-turquoise: #9AD2CC;
 
+$border-turquoise: #9AD2CC;
+$sidebar-background: #FAFAFA;
+$sidebar-border: #ECECEC;
+
+$bg-gray: #FAFAFA;
+$border-gray: #ECECEC;
+$text-gray: #3F3F3F;
+
+$members-color: #ECE157;
+$experts-color: #4A90E2;
+
+$hover-gray: #e9ebec;
+$dark-turquoise: #156B62;
+$border-turquoise: #9AD2CC;
+
+$dull-orange: #E76852;
+$red-link: #C5000D;
+
+// font variables
+$font-family-base: 'Lato';
+$font-size-base: 13px;
+
+// screen variables
+$grid-gutter-width: 20px;
+$container-large-desktop: (940px + $grid-gutter-width);
+
+$icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
+
+@import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
+@import "bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Third-party vendors
+@import "angular-flippy/dist/css/flippy";
+@import "angular-flippy/dist/css/flippy-fancy";
+@import "angular-image-crop/image-crop-styles";
+@import "medium-editor/dist/css/medium-editor";
+@import "medium-editor/dist/css/themes/default";
+@import "ng-tags-input/ng-tags-input";
+
+@import "base";
+@import "landing";
+@import "home";
+@import "members";
+@import "conversations";
+@import "journals";

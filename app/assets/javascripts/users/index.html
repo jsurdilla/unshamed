@@ -1,26 +1,30 @@
 <div id='home-timeline' class="container">
   <div class='content-area'>
     <div class='left-rail'>
-      <section class='connections'>
+      <section class='friends wire-section'>
         <h4>Connections</h4>
-        <ol class="list-unstyled">
-          <li ng-repeat='friend in userHome.friends'>
-            <img ng-src="{{ friend.profile_pictures.square50 }}" />
-            <a ui-sref='members.details({ id: friend.id })'>{{ friend.full_name }}</a>
-          </li>
-          <li ng-if='!userHome.friends.length'>
-            You have no connections yet. Why not say hello to someone?
-          </li>
-        </ol>
+        <div class='content'>
+          <ol class="list-unstyled">
+            <li ng-repeat='friend in userHome.friends'>
+              <img ng-src="{{ friend.profile_pictures.square50 }}" />
+              <a ui-sref='members.details({ id: friend.id })'>{{ friend.full_name }}</a>
+            </li>
+            <li ng-if='!userHome.friends.length'>
+              You have no connections yet. Why not say hello to someone?
+            </li>
+          </ol>
+        </div>
       </section>
 
-      <section class='resources'>
+      <section class='resources wire-section'>
         <h4>Resources</h4>
-        <ol class="list-unstyled">
-          <li ng-repeat='resource in userHome.resources' ng-class='resource.media_type'>
-            <a ng-href='{{ resource.url }}' target='resource'>{{ resource.title }}</a>
-          </li>
-        </ol>
+        <div class='content'>
+          <ol class="list-unstyled">
+            <li ng-repeat='resource in userHome.resources' ng-class='resource.media_type'>
+              <a ng-href='{{ resource.url }}' target='resource'>{{ resource.title }}</a>
+            </li>
+          </ol>
+        </div>
       </section>
     </div>
 
@@ -42,8 +46,8 @@
     </div>
 
     <div class='right-rail'>
-      <a class='top-link' ui-sref='conversations'><img src='/assets/speech-bubble@2x.png'  />Messages</a>
-      <a class='top-link' ui-sref='journalEntries.new'><img src='/assets/journal@2x.png' />Journal</a>
+      <a class='wire-btn' ui-sref='conversations'><img src='/assets/speech-bubble@2x.png'  />Messages</a>
+      <a class='wire-btn' ui-sref='journalEntries.new'><img src='/assets/journal@2x.png' />Journal</a>
 
       <section class='members'>
         <h4>Members</h4>

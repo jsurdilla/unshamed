@@ -8,6 +8,7 @@ class FriendshipRequest < ActiveRecord::Base
   has_one :friendship
 
   scope :pending, -> { where(state: 'pending') }
+  scope :coming_from, ->(user) { where(user_id: user.id) }
 
   aasm :column => :state do
     state :pending, initial: true

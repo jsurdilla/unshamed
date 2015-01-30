@@ -10,8 +10,12 @@ function pusherHelperSvc($rootScope, $auth, $q) {
   // PUBLIC
 
   self.events = {
-    NEW_MESSAGE: 'new-message',
-    NEW_REPLY: 'new-reply'
+    NEW_MESSAGE:         'new-message',
+    NEW_REPLY:           'new-reply',
+    NEW_FRIEND_REQ:      'new-friend-request',
+    CANCEL_FRIEND_REQ:   'cancel-friend-request',
+    ACCEPTED_FRIEND_REQ: 'accepted-friend-req',
+    REJECTED_FRIEND_REQ: 'rejected-friend-req'
   };
 
   self.mainChannelName = function() {
@@ -42,4 +46,31 @@ function pusherHelperSvc($rootScope, $auth, $q) {
     });
   };
 
+  self.subscribeToNewFriendReq = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.NEW_FRIEND_REQ, callback);
+    });
+  };
+
+  self.subscribeToCancelledFriendReq = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.CANCEL_FRIEND_REQ, callback);
+    });
+  };
+
+  self.subscribeToAcceptedFriendReq = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.ACCEPTED_FRIEND_REQ, callback);
+    });
+  };
+
+  self.subscribeToRejectedFriendReq = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.REJECTED_FRIEND_REQ, callback);
+    });
+  };
 };

@@ -20,7 +20,6 @@ angular.module('unshamed', [
   'angular-flippy',
   'angular-medium-editor',
   'ImageCropper',
-  'infinite-scroll',
   'ipCookie',
   'ngSanitize',
   'ngTagsInput',
@@ -32,8 +31,7 @@ angular.module('unshamed', [
   'unshamed.registration',
   'unshamed.login',
   'unshamed.services',
-  'ui.router',
-  'ui.bootstrap'
+  'ui.router'
 ]);
 
 angular.module('unshamed')
