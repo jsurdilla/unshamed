@@ -5,8 +5,6 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, :polymorphic => true
   belongs_to :author, foreign_key: :user_id, class_name: 'User'
 
-  default_scope -> { order('created_at ASC') }
-
   scope :posts, -> { where(commentable_type: 'Post') }
   scope :journal_entries, -> { where(commentable_type: 'JournalEntry') }
 
@@ -17,6 +15,10 @@ class Comment < ActiveRecord::Base
 
   def self.for_journal_entry_ids(journal_entry_ids)
     Comment.journal_entries.includes(:author).where(commentable_id: journal_entry_ids)
+  end
+
+  def self.for_commentable(commentable)
+    Comment.where(commentable_id: commentable.id, commentable_type: commentable.class.name)
   end
 
 end

@@ -3,7 +3,8 @@ Rails.application.routes.draw do
 
   mount_devise_token_auth_for 'User', at: '/auth', controllers: {
     token_validations: 'overrides/token_validations',
-    confirmations: 'overrides/confirmations'
+    confirmations:     'overrides/confirmations',
+    sessions:          'overrides/sessions'
   }
 
   namespace :api do
@@ -28,9 +29,20 @@ Rails.application.routes.draw do
         end
 
         delete 'friendship_requests' => 'friendship_requests#destroy'
-        resources :friendship_requests
+        resources :friendship_requests do
+          collection do
+            post :accept
+            post :reject
+          end
+        end
 
         delete 'friendships' => 'friendships#destroy'
+      end
+
+      resources :mhps do
+        collection do
+          get :most_recent
+        end
       end
 
       resources :friends
@@ -39,7 +51,11 @@ Rails.application.routes.draw do
 
       resources :posts
 
-      resources :comments
+      resources :comments do
+        member do
+          get :next_page
+        end
+      end
 
       resources :journal_entries
 

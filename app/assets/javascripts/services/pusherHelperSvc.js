@@ -10,8 +10,15 @@ function pusherHelperSvc($rootScope, $auth, $q) {
   // PUBLIC
 
   self.events = {
-    NEW_MESSAGE: 'new-message',
-    NEW_REPLY: 'new-reply'
+    NEW_MESSAGE:           'new-message',
+    NEW_REPLY:             'new-reply',
+    NEW_FRIEND_REQ:        'new-friend-request',
+    CANCEL_FRIEND_REQ:     'cancel-friend-request',
+    ACCEPTED_FRIEND_REQ:   'accepted-friend-req',
+    REJECTED_FRIEND_REQ:   'rejected-friend-req',
+    UNFRIEND:              'unfriend',
+    NEW_COMMENT:           'new-comment',
+    SUPPORT_COUNT_CHANGED: 'support-count-change'
   };
 
   self.mainChannelName = function() {
@@ -26,8 +33,6 @@ function pusherHelperSvc($rootScope, $auth, $q) {
     return $rootScope.pusher.subscribe(self.mainChannelName());
   };
 
-  // callback - called when new message arrives
-  // returns the subscription object that can be use to unsubscribe later.
   self.subscribeToNewMessage = function(callback) {
     $auth.validateUser().then(function() {
       var channel = self.mainChannel();
@@ -38,7 +43,61 @@ function pusherHelperSvc($rootScope, $auth, $q) {
   self.subscribeToNewReply = function(callback) {
     $auth.validateUser().then(function() {
       var channel = self.mainChannel();
-      channel.bind(self.events.NEW_REPLY, callback);
+      channel.baseChannel.bind(self.events.NEW_REPLY, callback);
+    });
+  };
+
+  self.unsubscribeToNewReply = function(callback) {
+    var channel = self.mainChannel();
+    channel.baseChannel.unbind(self.events.NEW_REPLY, callback);
+  };
+
+  self.subscribeToNewFriendReq = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.NEW_FRIEND_REQ, callback);
+    });
+  };
+
+  self.subscribeToCancelledFriendReq = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.CANCEL_FRIEND_REQ, callback);
+    });
+  };
+
+  self.subscribeToAcceptedFriendReq = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.ACCEPTED_FRIEND_REQ, callback);
+    });
+  };
+
+  self.subscribeToRejectedFriendReq = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.REJECTED_FRIEND_REQ, callback);
+    });
+  };
+
+  self.subscribeToUnfriend = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.UNFRIEND, callback);
+    });
+  };
+
+  self.subscribeToNewComment = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.NEW_COMMENT, callback);
+    });
+  };
+
+  self.subscribeToSupportCountChange = function(callback) {
+    $auth.validateUser().then(function() {
+      var channel = self.mainChannel();
+      channel.bind(self.events.SUPPORT_COUNT_CHANGED, callback);
     });
   };
 

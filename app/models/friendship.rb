@@ -3,6 +3,8 @@ class Friendship < ActiveRecord::Base
   belongs_to :user
   belongs_to :friend, class_name: 'User'
 
+  after_save :index_user_friends
+
   def self.connect_friends!(friendship_request)
     Friendship.transaction do
       Friendship.create(
@@ -22,6 +24,10 @@ class Friendship < ActiveRecord::Base
     Friendship.where(["(user_id = :user_id AND friend_id = :friend_id) OR (user_id = :friend_id AND friend_id = :user_id)", {
       user_id: user_id, friend_id: friend_id
     }])
+  end
+
+  def index_user_friends
+    RedisCache::FriendshipAutocomplete.index_for_user(user)
   end
 
 end

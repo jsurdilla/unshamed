@@ -11,11 +11,15 @@ angular.module('unshamed')
     $stateProvider
       .state('start', {
         url: '/start',
-        templateProvider: ['$templateCache', function($templateCache) {
-          return $templateCache.get('start.html');
-        }],
-        controller: 'StartCtrl',
-        controllerAs: 'start'
+        views: {
+          'main@': {
+            templateProvider: ['$templateCache', function($templateCache) {
+              return $templateCache.get('start.html');
+            }],
+            controller: 'StartCtrl',
+            controllerAs: 'start'
+          }
+        }
       })
 
       .state('register', {
@@ -49,97 +53,152 @@ angular.module('unshamed')
 
       .state('onboard', {
         url: '/onboard/:alert',
-        templateProvider: ['$templateCache', function($templateCache) {
-          return $templateCache.get('users/onboard.html');
-        }],
-        resolve: {
-          auth: ['$auth', '$state', function($auth, $state) {
-            return $auth.validateUser().then(function() {
-              if ($auth.user.onboarded) {
-                $state.go('home');
-              }
-            }, function error() {
-              $state.go('start');
-            });
-          }]
-        },
-        controller: 'UserOnboardCtrl',
-        controllerAs: 'onboard'
+        views: {
+          'main@': {
+            templateProvider: ['$templateCache', function($templateCache) {
+              return $templateCache.get('users/onboard.html');
+            }],
+            resolve: {
+              auth: ['$auth', '$state', function($auth, $state) {
+                return $auth.validateUser().then(function() {
+                  console.log('HERE');
+                  if ($auth.user.onboarded) {
+                    $state.go('home');
+                  }
+                }, function error() {
+                  console.log('THERE');
+                  $state.go('start');
+                });
+              }]
+            },
+            controller: 'UserOnboardCtrl',
+            controllerAs: 'onboard'
+          }
+        }
+      })
+
+      .state('withNav', {
+        abstract: true,
+        views: {
+          header: {
+            templateProvider: ['$templateCache', function($templateCache) {
+              return $templateCache.get('nav.html');
+            }],
+            controller: 'NavigationCtrl',
+            controllerAs: 'nav',
+            resolve: {
+              auth: ['$auth', '$state', '$q', 'setup_pusher', function($auth, $state, $q, setup_pusher) {
+                var deferred = $q.defer();
+                $auth.validateUser().then(function(user) {
+                  if (!$auth.user.onboarded) {
+                    $state.go('onboard', { skipCheck: true });
+                  }
+                  deferred.resolve(user);
+                }, function error() {
+                  deferred.reject();
+                  $state.go('start');
+                });
+                return deferred.promise;
+              }]
+            }
+          },
+          main: '<ui-view />'
+        }
       })
 
       .state('home', {
         url: '/',
-        templateProvider: ['$templateCache', function($templateCache) {
-          return $templateCache.get('users/index.html');
-        }],
-        parent: 'authenticated',
-        controller: 'UserHomeCtrl',
-        controllerAs: 'userHome'
+        parent: 'withNav',
+        views: {
+          'main@': {
+            templateProvider: ['$templateCache', function($templateCache) {
+              return $templateCache.get('users/index.html');
+            }],
+            controller: 'UserHomeCtrl',
+            controllerAs: 'userHome'
+          }
+        }
       })
 
       .state('members', {})
 
       .state('members.details', {
         url: '/members/:id',
-        templateProvider: ['$templateCache', function($templateCache) {
-          return $templateCache.get('members/show.html');
-        }],
-        resolve: {
-          member: ['User', '$stateParams', function(User, $stateParams) {
-            return User.get({ id: $stateParams.id });
-          }],
-          timeline: ['Timeline', '$stateParams', function(Timeline, $stateParams) {
-            return Timeline.get({ user_id: $stateParams.id });
-          }]
-        },
-        parent: 'authenticated',
-        controller: 'MemberDetailsCtrl',
-        controllerAs: 'member'
+        parent: 'withNav',
+        views: {
+          'main@': {
+            templateProvider: ['$templateCache', function($templateCache) {
+              return $templateCache.get('members/show.html');
+            }],
+            resolve: {
+              member: ['User', '$stateParams', function(User, $stateParams) {
+                return User.get({ id: $stateParams.id }).$promise;
+              }]
+            },
+            controller: 'MemberDetailsCtrl',
+            controllerAs: 'member'
+          }
+        }
       })
 
-      .state ('journalEntries', {})
+      .state ('journalEntries', {
+        parent: 'withNav'
+      })
 
       .state('journalEntries.new', {
         url: '/journal_entries/new',
-        templateProvider: ['$templateCache', '$rootScope', function($templateCache, $rootScope) {
-          return $templateCache.get('journal_entries/index.html');
-        }],
-        parent: 'authenticated',
-        controller: 'JournalIndexCtrl',
-        controllerAs: 'journalEntries'
+        views: {
+          'main@': {
+            templateProvider: ['$templateCache', '$rootScope', function($templateCache, $rootScope) {
+              return $templateCache.get('journal_entries/index.html');
+            }],
+            parent: 'authenticated',
+            controller: 'JournalIndexCtrl',
+            controllerAs: 'journalEntries'
+          }
+        }
       })
 
       .state('journalEntries.show', {
         url: '/journal_entries/:id',
-        templateProvider: ['$templateCache', '$rootScope', function($templateCache, $rootScope) {
-          return $templateCache.get('journal_entries/index.html');
-        }],
-        resolve: {
-          journalEntry: ['JournalEntry', '$stateParams', '$q', function(JournalEntry, $stateParams, $q) {
-            if ($stateParams.id) {
-              return JournalEntry.get({ id: $stateParams.id }).$promise;
-            }
-            return null;
-          }]
-        },
-        parent: 'authenticated',
-        controller: 'JournalEntryShowCtrl',
-        controllerAs: 'journalEntry'
+        views: {
+          'main@': {
+            templateProvider: ['$templateCache', '$rootScope', function($templateCache, $rootScope) {
+              return $templateCache.get('journal_entries/index.html');
+            }],
+            resolve: {
+              journalEntry: ['JournalEntry', '$stateParams', '$q', function(JournalEntry, $stateParams, $q) {
+                if ($stateParams.id) {
+                  return JournalEntry.get({ id: $stateParams.id }).$promise;
+                }
+                return null;
+              }]
+            },
+            parent: 'authenticated',
+            controller: 'JournalEntryShowCtrl',
+            controllerAs: 'journalEntry'
+          }
+        }
       })
 
       .state('conversations', {
         url: '/conversations',
-        templateProvider: ['$templateCache', function($templateCache) {
-          return $templateCache.get('conversations/index.html');
-        }],
-        resolve: {
-          conversations: ['convoSvc', function(convoSvc) {
-            return convoSvc.getMostRecent();
-          }]
-        },
-        parent: 'authenticated',
-        controller: 'ConversationsIndexCtrl',
-        controllerAs: 'convos'
+        parent: 'withNav',
+        views: {
+          'main@': {
+            templateProvider: ['$templateCache', function($templateCache) {
+              return $templateCache.get('conversations/index.html');
+            }],
+            resolve: {
+              conversations: ['convoSvc', function(convoSvc) {
+                return convoSvc.getMostRecent();
+              }]
+            },
+            parent: 'authenticated',
+            controller: 'ConversationsIndexCtrl',
+            controllerAs: 'convos'
+          }
+        }
       })
 
       .state('conversations.new', {
@@ -163,16 +222,16 @@ angular.module('unshamed')
               return $templateCache.get('conversations/show.html');
             }],
             controller: 'ConversationsShowCtrl',
-            controllerAs: 'convoShow'
-          }
-        },
-        resolve: {
-          convo: ['Conversation', '$stateParams', '$q', function(Conversation, $stateParams, $q) {
-            if ($stateParams.id) {
-              return Conversation.get({ id: $stateParams.id }).$promise;
+            controllerAs: 'convoShow',
+            resolve: {
+              convo: ['Conversation', '$stateParams', '$q', function(Conversation, $stateParams, $q) {
+                if ($stateParams.id) {
+                  return Conversation.get({ id: $stateParams.id }).$promise;
+                }
+                return null;
+              }]
             }
-            return null;
-          }]
+          }
         }
       })
 

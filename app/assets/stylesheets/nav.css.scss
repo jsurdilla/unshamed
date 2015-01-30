@@ -1,0 +1,27 @@
+.friend-reqs {
+  .req {
+    @include clearfix();
+    padding: 8px;
+    border-top: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-bottom: 1px solid #e0e0f0;
+    }
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
+    img { @include border-radius(25px); float: left; }
+    img + div {
+      margin-left: 60px;
+
+      .name { font-weight: 600; }
+      a { cursor: pointer; }
+    }
+  }
+
+  .no-req {
+    padding: 8px;
+  }
+}

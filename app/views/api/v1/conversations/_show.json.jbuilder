@@ -5,6 +5,6 @@ json.participants do
 end
 
 json.messages do
-  json.partial! 'api/v1/conversations/message', collection: conversation.messages.order('created_at ASC'), as: :message
+  json.partial! 'api/v1/conversations/message', collection: messages, as: :message
 end
 

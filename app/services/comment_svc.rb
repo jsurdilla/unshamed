@@ -8,7 +8,7 @@ class CommentSvc
   end
 
   def comments
-    @comments = Comment.includes(:commentable).find_by_sql(sql).tap do
+    @comments = Comment.includes(:commentable).find_by_sql(sql).reverse.tap do
       ActiveRecord::Associations::Preloader.new.preload(@comments, :commentable)
     end
   end
@@ -36,7 +36,7 @@ class CommentSvc
     end
 
     <<-SQL
-      SELECT c.*, counts.total
+      SELECT c.*, counts.total, (counts.total - 3) remaining
       FROM (
         SELECT ROW_NUMBER() OVER (PARTITION BY commentable_id, commentable_type ORDER BY created_at DESC) row_number,
           comments.*

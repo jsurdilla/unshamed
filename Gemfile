@@ -1,12 +1,11 @@
 source 'https://rubygems.org'
 
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
-# Use SCSS for stylesheets
-gem 'bootstrap-sass'
+# Use SCSS for stylesheetssdf
 gem 'sass-rails', '~> 4.0.3'
 gem 'compass-rails'
 gem 'angular-rails-templates'
@@ -64,4 +63,10 @@ gem 'mailboxer'
 gem 'pusher'
 gem 'yajl-ruby', require: 'yajl'
 
+gem 'redis'
+gem 'redis-namespace', git: 'https://github.com/jsurdilla/redis-namespace'
+gem 'resque'
+
 ruby "2.1.3"
+gem 'aws-sdk-v1'
+gem 'aws-sdk', '2.0.6.pre'

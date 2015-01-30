@@ -1,0 +1,162 @@
+body, html { height: 100%; }
+
+#conversations {
+  height: 100%;
+  min-height: 500px;
+  margin-top: -82px;
+  padding-top: 82px;
+  padding-bottom: 20px;
+
+  .wrapper { height: 100%; position: relative; }
+
+  .full-ht-with-top-space { position: absolute; top: 50px; bottom: 0; }
+  .full-ht-stretch { position: absolute; top: 0; bottom: 0; }
+  .full-width-stretch { position: absolute; left: 0; right: 0; }
+
+  .left-panel {
+    @extend .full-ht-stretch;
+    left: 0;
+
+    .conversations-list {
+      @extend .full-ht-with-top-space;
+      @extend .full-width-stretch;
+
+      list-style: none;
+      background-color: $light-bg;
+      border: 1px solid $turquoise;
+      border-right-width: 4px;
+      height: auto;
+      overflow: auto;
+      margin: 0;
+      margin-left: 10px;
+      padding: 0;
+
+      li {
+        background-color: $bg-gray;
+
+        a {
+          display: block;
+          padding: 1rem;
+          &:hover { color: $text-gray; }
+        }
+        .participants { font-weight: 600; }
+        &.unread {
+          background-color: $light-turquoise;
+          border-bottom: 1px solid $turquoise;
+        }
+        &:hover { background-color: $turquoise; }
+      }
+
+      > li.unread ~ li.unread { border-top: none; }
+      > li.read { border-bottom: 1px solid $border-gray; }
+      > li.current { background-color: $turquoise; }
+    }
+
+    .top-link {
+      @include border-radius(20px);
+      display: inline-block;
+      font-size: 1rem;
+      padding: 3px;
+      width: 45%;
+
+      img { height: 14px; margin: 6px 6px 8px 6px; }
+    }
+  }
+
+  .main-panel {
+    @extend .full-ht-stretch;
+    right: 0;
+
+    border-left: none;
+    padding: 0;
+    overflow: auto;
+
+    .messages {
+      position: absolute;
+      top: 50px;
+      bottom: 0;
+      left: 0px;
+      right: 0px;
+      padding: 0;
+      border: 1px solid $border-turquoise;
+      border-left: none;
+      margin-bottom: 80px;
+      overflow: auto;
+      ul {
+        list-style: none;
+        padding: 1rem;
+      }
+
+      .section {
+        margin-top: 1rem;
+        &:first-child { margin-top: 0; }
+      }
+
+      .profile-pic {
+        float: left;
+        width: 50px;
+        min-height: 1rem;
+
+        img { @include border-radius(20px); margin-top: 6px; width: 40px; }
+      }
+
+      .time { float: right; }
+      .msgs {
+        overflow: hidden;
+        .msg { margin-top: 0.75rem; }
+        .time { font-size: 0.9rem; font-style: italic; }
+        .body { overflow: hidden; }
+      }
+    }
+
+    .reply {
+      @extend .full-width-stretch;
+      bottom: 0;
+      border: 1px solid $border-turquoise;
+      border-left: none;
+
+      .textarea-wrapper { margin: 3px; }
+      textarea { border: none; width: 100%; outline: none; padding: 0.5em 0.5em 0 0.5em; }
+      .action { $bg-turquoise: #F9FBFC; border-top: 1px solid $border-turquoise; padding: 3px; }
+    }
+
+    form[name=convoForm] {
+      @extend .full-ht-with-top-space;
+      @extend .full-width-stretch;
+
+      border: 1px solid $turquoise;
+    }
+  }
+
+  .recipients {
+    label {
+      float: left;
+      margin: 7px;
+    }
+  }
+
+  // Tags
+  tags-input {
+    .host { margin: 0; border-bottom: 1px solid $turquoise; }
+    .tags {
+      @include appearance(none);
+      @include box-shadow(none);
+      border: none;
+
+      input {
+        font-family: lato;
+        font-size: 1rem;
+      }
+
+      &:focus, &.focused { outline: none; box-shadow: none; }
+
+      .tag-item {
+        font-family: Lato;
+        font-size: 1rem;
+        background: $light-turquoise;
+        border: 1px solid $turquoise;
+      }
+    }
+    &.ng-invalid .tags { @include box-shadow(none); }
+  }
+}

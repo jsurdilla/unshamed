@@ -43,6 +43,5 @@
   },
   "_source": "git://github.com/interval-braining/angular-input-match.git",
   "_target": "~0.0.2",
-  "_originalSource": "angular-input-match",
-  "_direct": true
+  "_originalSource": "angular-input-match"
 }

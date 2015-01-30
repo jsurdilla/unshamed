@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150115025119) do
+ActiveRecord::Schema.define(version: 20150222205307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,20 @@ ActiveRecord::Schema.define(version: 20150115025119) do
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
 
+  create_table "member_profiles", force: true do |t|
+    t.integer  "user_id"
+    t.string   "struggles",  default: [], array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mhp_profiles", force: true do |t|
+    t.integer  "user_id"
+    t.string   "struggles",  default: [], array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "posts", force: true do |t|
     t.text     "body"
     t.string   "feeling"
@@ -181,7 +195,6 @@ ActiveRecord::Schema.define(version: 20150115025119) do
     t.string   "profile_picture_content_type"
     t.integer  "profile_picture_file_size"
     t.datetime "profile_picture_updated_at"
-    t.string   "struggles",                    default: [],              array: true
     t.string   "username"
     t.string   "zip_code"
     t.date     "birthdate"
@@ -207,5 +220,9 @@ ActiveRecord::Schema.define(version: 20150115025119) do
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", name: "notifications_on_conversation_id", column: "conversation_id"
 
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", name: "receipts_on_notification_id", column: "notification_id"
+
+  add_foreign_key "member_profiles", "users", name: "member_profiles_user_id_fk"
+
+  add_foreign_key "mhp_profiles", "users", name: "mhps_user_id_fk"
 
 end

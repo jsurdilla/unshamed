@@ -2,21 +2,7 @@
   <h3 ng-bind='convoShow.participantsInHeaderFormat()'></h3>
 </header>
 
-<ul class='messages' scroll-to-bottom='convoShow.lastMessageAddedAt'>
-  <li ng-repeat='section in convoShow.sections' class='clearfix section'>
-    <h4 ng-show='section.newDay'>{{ section.timestamp.toDate() | date:'mediumDate' }}</h4>
-
-    <div class='profile-pic'>
-      <img ng-src='{{ section.messages[0].sender.profile_pictures.square50 }}' />
-    </div>
-    <div class='msgs'>
-      <div ng-repeat='message in section.messages' class='clearfix msg'>
-        <div class='time'>{{ message.sentAt.toDate() | date:'shortTime' }}</div>
-        <div class='body'>{{ message.body }}</div>
-      </div>
-    </div>
-  </li>
-</ul>
+<conversation-list conversation-id='convoShow.convo.id'></conversation-list>
 
 <div class='reply'>
   <form role="form" ng-submit='convoShow.postReply()' name='convoShow.replyForm' novalidate>

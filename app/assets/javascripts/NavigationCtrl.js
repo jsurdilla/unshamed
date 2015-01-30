@@ -3,11 +3,11 @@
 angular.module('unshamed')
   .controller('NavigationCtrl', NavigationCtrl);
 
-NavigationCtrl.$inject = ['$rootScope', '$auth', '$state'];
-function NavigationCtrl($rootScope, $auth, $state) {
+NavigationCtrl.$inject = ['$compile', '$rootScope', '$scope', '$auth', '$state', '$templateCache', '$timeout', 'FriendshipRequest'];
+function NavigationCtrl($compile, $rootScope, $scope, $auth, $state, $templateCache,  $timeout,  FriendshipRequest) {
   var vm = this;
 
-  vm.test = "TESTING";
+  // PUBLIC
 
   vm.signOut = function() {
     $auth.signOut().finally(function() {
@@ -17,5 +17,3 @@ function NavigationCtrl($rootScope, $auth, $state) {
   };
 
 };
-
-

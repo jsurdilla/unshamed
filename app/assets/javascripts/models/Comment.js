@@ -9,6 +9,14 @@ function Comment($resource) {
     query: {
       method: 'GET',
       isArray: false
+    },
+
+    nextPage: {
+      method: 'GET',
+      isArray: false,
+      params: {
+        verb: 'next_page'
+      }
     }
   };
 

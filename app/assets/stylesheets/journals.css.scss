@@ -1,0 +1,86 @@
+div.medium-editor-section {
+  padding-top: 1rem;
+  > h1, > p { outline: none; }
+  p[medium-editor] { font-size: 1.2em; min-height: 200px; }
+}
+
+#journal-entries {
+
+  .sidebar {
+    .top-link { border-radius: 23px; }
+    .no-entries-msg { margin-top: 2rem; font-style: italic; padding: 0.5rem; }
+
+    .entries-list {
+      border: 1px solid $border-turquoise;
+      border-bottom: none;
+      margin-top: 2rem;
+      padding: 0;
+
+      h4 {
+        border-bottom: 1px solid $border-turquoise;
+        color: $turquoise;
+        font-size: 1.1rem;
+        padding: 10px;
+        margin: 0;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          &.public { background: url("/assets/unlocked-filled@2x.png") no-repeat 95% center; background-size: 14px auto; }
+          border-bottom: 1px solid $border-turquoise;
+
+          &.active, &:hover {
+            background: $turquoise;
+            &.public { background: $turquoise url("/assets/unlocked-white@2x.png") no-repeat 95% center; background-size: 14px auto; }
+            a { color: white; }
+          }
+
+          .title { font-weight: 600; }
+          .created-at { font-size: 0.9rem; font-style: italic; }
+
+          a {
+            display: block;
+            padding: 8px;
+            &:hover { color: white; }
+
+            > div {
+              display: inline-block;
+              width: 85%;
+            }
+
+            .public-icon { display: inline-block; float: right; height: 18px; vertical-align: middle; }
+          }
+        }
+      }
+    }
+  }
+
+  .actions {
+    border-bottom: 1px solid #e0e0e0;
+
+    a {
+      cursor: pointer;
+      display: inline-block;
+      padding: 8px;
+      text-align: center;
+      width: 100px;
+      img { height: 18px; margin-right: 0.5rem; }
+
+      &:hover { background-color: $hover-gray; }
+    }
+
+    .datepicker {
+      height: 34px;
+      input { height: 100%; padding: 8px; vertical-align: middle; }
+      span { vertical-align: middle; }
+    }
+  }
+
+  .main-content {
+    border: 1px solid #e0e0e0; padding: 2rem;
+    .last-saved { color: $dull-orange; text-align: right; font-style: italic; font-size: 0.95rem; }
+  }
+}

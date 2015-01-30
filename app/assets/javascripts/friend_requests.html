@@ -1,0 +1,17 @@
+<div tabindex="-1" class="dropdown-menu" role="menu" style='width: 300px;'>
+  <div ng-show='friendRequestSvc.friendshipRequests.length > 0' ng-repeat='fr in friendRequestSvc.friendshipRequests' class='req'>
+    <img ng-src='{{ fr.user.profile_pictures.square50 }}' />
+    <div>
+      <span class='name' ng-bind='fr.user.full_name'></span>
+      <div ng-hide='fr.state === "accepted" || fr.state === "rejected"'>
+        <a ng-click='friendRequestSvc.acceptReqFromUser(fr.user)'>Accept</a>
+        <a ng-click='friendRequestSvc.rejectReqFromUser(fr.user)'>Reject</a>
+      </div>
+      <div ng-show='fr.state === "accepted"'>You are now friends.</div>
+      <div ng-show='fr.state === "rejected"'>You turne down the request.</div>
+    </div>
+  </div>
+  <div ng-show='friendRequestSvc.friendshipRequests.length == 0' class='no-req'>
+    You have no pending requests.
+  </div>
+</div>

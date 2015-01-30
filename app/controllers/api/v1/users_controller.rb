@@ -3,7 +3,9 @@ class Api::V1::UsersController < ApplicationController
   before_action :authenticate_user!, except: [:check_username]
 
   def most_recent
-    @users = User.onboarded.order('created_at DESC').first(10)
+    type_id_pairs = RedisCache::GroupMembers.new(current_user.struggles).items(params[:page])
+    grouped       = RedisCache::RedisResponseUtils.group_type_id_pairs(type_id_pairs)
+    @users        = User.where(id: grouped['user']).order('created_at DESC') if grouped['user']
     render action: :index
   end
 

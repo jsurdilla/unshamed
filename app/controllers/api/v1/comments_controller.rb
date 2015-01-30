@@ -6,16 +6,33 @@ class Api::V1::CommentsController < ApplicationController
     if params[:preview]
       comment_svc = CommentSvc.new(post_ids: params[:post_ids].split(','), journal_entry_ids: params[:journal_entry_ids].split(','))
       @comments = comment_svc.comments
-      render partial: 'preview'
     else
       @comments = Comment.for_post_ids(params[:post_ids].split(',')) if params[:post_ids]
     end
+  end
+
+  # Fetches the next page of comment for a specific item.
+  def next_page
+    comment = Comment.find(params[:id])
+    limit = params[:limit] || 20
+
+    @remaining = [Comment.for_commentable(comment.commentable).where('created_at < ?', comment.created_at).order('created_at DESC').count - limit, 0].max
+    @total     = Comment.for_commentable(comment.commentable).count
+    @comments  = Comment.for_commentable(comment.commentable).where('created_at < ?', comment.created_at).order('created_at DESC').limit(limit).reverse.to_a
+
+    render action: :single
   end
 
   def create
     @comment = Comment.new(comment_params)
     @comment.author = current_user
     if @comment.save
+      # Add commenter
+      RedisCache::CommentTracker.new(@comment.commentable).add_commenter(current_user.id)
+
+      payload = JSON.parse(render_template('api/v1/comments/show', { :@comment => @comment }))
+      channels = RedisCache::CommentTracker.new(@comment.commentable).commenter_ids.map { |cid| "private-user#{cid}" }
+      Pusher.trigger(channels, 'new-comment', payload, { socket_id: client_socket_id })
       render action: :show
     else
       render json: { errors: @comment.errors }, status: :unprocessable_entity
@@ -33,4 +50,10 @@ class Api::V1::CommentsController < ApplicationController
     )
   end
 
+  def render_template(template, locals)
+    render_to_string({
+      template: template,
+      locals: locals
+    })
+  end
 end

@@ -17,3 +17,5 @@
 
 public/system
 .env
+app/assets/javascripts/.module-cache/
+app/assets/javascripts/gen/.module-cache/

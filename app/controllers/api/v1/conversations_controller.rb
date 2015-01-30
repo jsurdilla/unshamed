@@ -12,7 +12,12 @@ class Api::V1::ConversationsController < ApplicationController
 
   def show
     @conversation.mark_as_read(current_user)
-    render
+    if params[:message_id]
+      current_message_created_at = @conversation.messages.find(params[:message_id]).created_at
+      @messages = @conversation.messages.where('created_at < ?', current_message_created_at).order('created_at DESC').limit(20).reverse
+    else
+      @messages = @conversation.messages.order('created_at DESC').limit(20).reverse
+    end
   end
 
   def create
@@ -30,7 +35,8 @@ class Api::V1::ConversationsController < ApplicationController
   end
 
   def recipient_autocomplete
-    @users = User.where(onboarded: true).all
+    user_ids = RedisCache::FriendshipAutocomplete.find(current_user, params[:query]).map { |f| f.split(':').last }.uniq
+    @users = User.onboarded.where(id: user_ids)
   end
 
   private

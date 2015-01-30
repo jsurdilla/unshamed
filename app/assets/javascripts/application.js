@@ -11,28 +11,30 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap-sprockets
 //= require lodash/dist/lodash
 //= require moment/moment
+//= require react/react
 //
 //= require angular/angular
-//= require angular-bootstrap/ui-bootstrap
-//= require angular-bootstrap/ui-bootstrap-tpls
 //= require angular-cookie/angular-cookie
 //= require angular-flippy/dist/js/flippy.js
+//= require angular-image-crop/image-crop
 //= require angular-input-match/dist/angular-input-match
 //= require angular-medium-editor/dist/angular-medium-editor
 //= require angular-resource/angular-resource
 //= require angular-sanitize/angular-sanitize
 //= require angular-ui-router/release/angular-ui-router
+//= require angular-strap/dist/angular-strap
+//= require angular-strap/dist/angular-strap.tpl.js
 //= require medium-editor/dist/js/medium-editor
+//= require ngReact/ngReact
 //= require ng-file-upload/angular-file-upload
-//= require angular-image-crop/image-crop
 //= require ng-token-auth/dist/ng-token-auth
 //= require ng-tags-input/ng-tags-input
 //= require pusher/dist/pusher
 //= require pusher-angular/lib/pusher-angular
-//= require underscore.string/lib/underscore.string
+//= require react-bootstrap/react-bootstrap
+//= require underscore.string/dist/underscore.string
 //
 //= require angular-rails-templates
 //

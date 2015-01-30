@@ -1,4 +1,4 @@
-json.(message, :body, :created_at)
+json.(message, :id, :body, :created_at)
 json.sender do
   json.(message.sender, :id, :first_name, :last_name, :full_name)
   json.profile_pictures do

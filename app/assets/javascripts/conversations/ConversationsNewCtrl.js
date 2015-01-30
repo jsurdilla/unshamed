@@ -15,7 +15,7 @@ function ConversationsNewCtrl($scope, Conversation, $q, $state, convoSvc) {
 
   vm.getRecipients = function($query) {
     var deferred = $q.defer();
-    Conversation.recipientAutocomplete().$promise.then(function(data) {
+    Conversation.recipientAutocomplete({ query: $query }).$promise.then(function(data) {
       deferred.resolve(_.map(data.users, function(user) {
         return { user_id: user.id, text: user.full_name }
       }));

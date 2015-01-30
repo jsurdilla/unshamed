@@ -26,7 +26,8 @@ module Overrides
           :uid,
           :gender,
           :about_me,
-          :onboarded
+          :onboarded,
+          :is_mhp?
         )
 
         json.profile_pictures do
