@@ -62,6 +62,8 @@ gem 'aws-sdk', '2.0.6.pre'
 
 gem 'factory_girl_rails', '~> 4.0'
 
+gem 'newrelic_rpm'
+
 group :test do
   gem 'minitest-spec-rails'
 end
