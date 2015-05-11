@@ -6,7 +6,7 @@ json.comments do
 
     # comment author
     json.author do
-      json.(comment.author, :id, :first_name, :last_name, :full_name)
+      json.(comment.author, :id, :username, :first_name, :last_name, :full_name)
       json.profile_pictures do
         json.square50 comment.author.profile_picture(:square50)
       end

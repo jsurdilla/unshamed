@@ -16,6 +16,20 @@ class MultiGroupKeyZsetTest < ActiveSupport::TestCase
     RedisCache.redis.flushall
   end
 
+  describe 'initialization' do
+    it 'raises exception when group_name is mssing' do
+      lambda { RedisCache::MultiGroupKeyZset.new('', 'items', ['anxiety', 'depression'], loader) }.must_raise RuntimeError
+    end
+
+    it 'raises exception when group_name is mssing' do
+      lambda { RedisCache::MultiGroupKeyZset.new('struggles', '', ['anxiety', 'depression'], loader) }.must_raise RuntimeError
+    end
+
+    it 'raises exception when group_name is mssing' do
+      lambda { RedisCache::MultiGroupKeyZset.new('struggles', 'items', [], loader) }.must_raise RuntimeError
+    end
+  end
+
   describe '#add_items' do
     it 'pre-loads individual groups that have not been initialized' do
       post_for_preload = FactoryGirl.create(:post)

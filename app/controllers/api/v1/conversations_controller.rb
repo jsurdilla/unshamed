@@ -12,6 +12,7 @@ class Api::V1::ConversationsController < ApplicationController
 
   def show
     @conversation.mark_as_read(current_user)
+    Notification::ConversationNotification.message_count_notification(current_user)
     if params[:message_id]
       current_message_created_at = @conversation.messages.find(params[:message_id]).created_at
       @messages = @conversation.messages.where('created_at < ?', current_message_created_at).order('created_at DESC').limit(20).reverse
@@ -25,12 +26,14 @@ class Api::V1::ConversationsController < ApplicationController
     receipt = current_user.send_message(users, params[:body], 'Untitled')
     @conversation = receipt.conversation
     new_conversation_notification(users, @conversation)
+    Notification::ConversationNotification.message_count_notification(@conversation.participants, client_socket_id)
   end
 
   def reply
     @receipt = current_user.reply_to_conversation(@conversation, params[:body])
     @message = @receipt.message
     reply_notification(@receipt.conversation.participants, @message)
+    Notification::ConversationNotification.message_count_notification(@receipt.conversation.participants, client_socket_id)
     render action: 'message'
   end
 

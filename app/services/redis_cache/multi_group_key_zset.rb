@@ -4,6 +4,7 @@ class RedisCache::MultiGroupKeyZset
   PER_PAGE = 15
 
   def initialize(group_name, association, groups, loader)
+    raise "group_name, association and groups are required parameters." if [group_name, association, groups].any?(&:blank?)
     @group_name, @association, @groups, @loader = group_name, association, groups.sort, loader
   end
 
@@ -36,7 +37,7 @@ class RedisCache::MultiGroupKeyZset
 
     # TODO: clean this up
     keys = redis.pipelined do
-      (@groups).map { |g| redis.scan(0, match: format('%s:*%s*:%s', @group_name, g, @association), count: 500) }
+      @groups.map { |g| redis.scan(0, match: format('%s:*%s*:%s', @group_name, g, @association), count: 500) }
     end.map(&:last).flatten.uniq
 
     # only get multi-group keys
