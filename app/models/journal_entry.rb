@@ -1,6 +1,4 @@
 class JournalEntry < ActiveRecord::Base
-  # include RedisCache::GroupItemTracker
-
   acts_as_commentable
 
   belongs_to :user
