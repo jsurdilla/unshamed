@@ -5,8 +5,6 @@ class Api::V1::SupportsController < ApplicationController
   before_action :find_support, only: [:toggle, :create, :destroy]
 
   def item_summaries
-    @supports_redis = supports_redis
-
     post_ids = (params[:post_ids] || '').split(',')
     journal_entry_ids = (params[:journal_entry_ids] || '').split(',')
 
@@ -23,7 +21,6 @@ class Api::V1::SupportsController < ApplicationController
       res[:count] > 0 ? memo.merge(journal_entry_id => res) : memo
     end
 
-    @supports_redis.quit
     render json: { support_summaries: summaries }
   end
 

@@ -11,11 +11,6 @@ module RedisCache
         redis_connection = Redis.new
         Redis::Namespace.new(:comments, :redis => redis_connection)
       end
-
-      def supports_redis
-        redis_connection = Redis.new
-        Redis::Namespace.new(:supports, :redis => redis_connection)
-      end
     end
 
     SECONDS_IN_DAY = 24 * 60 * 60
