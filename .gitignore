@@ -20,4 +20,4 @@ public/system
 app/assets/javascripts/.module-cache/
 app/assets/javascripts/gen/.module-cache/
 
-prod_db_backups
+prod_db_backups/
