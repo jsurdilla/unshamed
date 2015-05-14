@@ -253,6 +253,20 @@ class MultiGroupKeyZsetTest < ActiveSupport::TestCase
       struggle_items.items(1).must_include to_zset_member_string(post1)
     end
 
+    it 'leaves the destination group unchanged if there are no items' do
+      loader.expect(:initial_items, [], ['anxiety'])
+      loader.expect(:initial_items, [], ['depression'])
+      loader.expect(:initial_items, [], ['ocd'])
+
+      post1, post2 = FactoryGirl.create(:post), FactoryGirl.create(:post)
+      struggles_items.add_items([post1, post2])
+      struggles_items.items(1).sort.must_equal to_zset_member_strings([post1, post2].sort)
+      struggles_items.reclassify([], ['ocd'])
+
+      ocd_items = RedisCache::MultiGroupKeyZset.new('struggles', 'items', ['ocd'], loader)
+      ocd_items.items(1).sort.must_be_empty
+    end
+
     it 'removes items from related multi-group keys if the items are gone from all their constituent keys' do
       loader = MockLoader.new([])
       struggles_items = RedisCache::MultiGroupKeyZset.new('struggles', 'items', ['anxiety', 'depression'], loader) 
@@ -267,7 +281,7 @@ class MultiGroupKeyZsetTest < ActiveSupport::TestCase
       struggles_items.items(1).wont_include to_zset_member_string(post1)
     end
 
-    it 'keeps the items in related multi-group keys if the one of the constituent keys still have the items' do
+    it 'keeps the items in related multi-group keys if one of the constituent keys still have the items' do
       loader = MockLoader.new([])
       struggles_items = RedisCache::MultiGroupKeyZset.new('struggles', 'items', ['anxiety', 'depression'], loader) 
 
@@ -281,6 +295,6 @@ class MultiGroupKeyZsetTest < ActiveSupport::TestCase
       struggles_items.items(1).must_include to_zset_member_string(post1)
     end
 
-    it 'adds the items to related aggreates that these items were not previously a part of prior to the reclassification'
+    it 'adds the items to related aggregates that these items were not previously a part of prior to the reclassification'
   end
 end

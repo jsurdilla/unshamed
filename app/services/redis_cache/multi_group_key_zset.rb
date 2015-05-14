@@ -65,7 +65,7 @@ class RedisCache::MultiGroupKeyZset
 
   def reclassify(items, new_groups)
     new_groups = new_groups.sort
-    return if @groups == new_groups
+    return if items.empty? || @groups == new_groups
 
     groups_to_remove_from = @groups - new_groups
     groups_to_add_to = new_groups - @groups
