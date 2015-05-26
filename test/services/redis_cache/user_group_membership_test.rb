@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../test_helper'
 
 class RedisCache::UserGroupMembershipTest < ActiveSupport::TestCase
   describe '.add_items to a single-group membership where key is uninitialized' do

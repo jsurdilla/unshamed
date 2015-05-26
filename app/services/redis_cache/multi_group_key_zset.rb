@@ -91,11 +91,11 @@ class RedisCache::MultiGroupKeyZset
   end
 
   def items(page, per_page=PER_PAGE)
-    page = page.to_i
+    page = (page || 1).to_i
 
     load_uninitialized_groups
     load_aggregate
-    redis.zrevrange(aggregate_key, (page - 1) * PER_PAGE, page * PER_PAGE - 1)
+    redis.zrevrange(aggregate_key, (page - 1) * per_page, page * per_page - 1)
   end
 
   def single_group_key(group)

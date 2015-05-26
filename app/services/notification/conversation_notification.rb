@@ -13,6 +13,5 @@ module Notification
         Pusher.trigger(channel, MESSAGE_COUNT_CHANGED, count && count['count'], { socket_id: client_socket_id })
       end
     end
-
   end
 end

@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../test_helper'
 
 class AssociatedSetTest < ActiveSupport::TestCase
   let (:commenters) { RedisCache::AssociatedSet.new('post:1', 'commenters') }
