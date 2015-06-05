@@ -585,7 +585,8 @@ CREATE TABLE users (
     username character varying(255),
     zip_code character varying(255),
     birthdate date,
-    prefix character varying(255)
+    prefix character varying(255),
+    is_admin boolean DEFAULT false
 );
 
 
@@ -1120,4 +1121,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150402200646');
 INSERT INTO schema_migrations (version) VALUES ('20150409180656');
 
 INSERT INTO schema_migrations (version) VALUES ('20150425202315');
+
+INSERT INTO schema_migrations (version) VALUES ('20150602154917');
 
