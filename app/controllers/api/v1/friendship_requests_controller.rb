@@ -13,6 +13,8 @@ class Api::V1::FriendshipRequestsController < ApplicationController
       accept
     else
       if @friendship_request = @user.pending_friend_requests_from(current_user).first_or_create
+        FriendRequestMailer.new_friend_request(@user, current_user).deliver
+
         payload = JSON.parse(render_template('api/v1/friendship_requests/show', { :@friendship_request => @friendship_request }))
         payload[:count] = @user.incoming_friendship_requests.pending.count
         Pusher.trigger("private-user#{@user.id}", 'new-friend-request', payload, { socket_id: client_socket_id })

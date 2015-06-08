@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Hello <%= @user.full_name || @user.email %>,</p>
+    <p>
+      You have a new friend request from <%= @requester.full_name || @requester.email -%>. <a href='http://www.unshamed.com/#/home'>Visit UnShamed</a> to review your requests.
+    </p>
+    <p>
+    	Wishing you a wonderful day,<br />
+    	Ben
+    </p>
+  </body>
+</html>

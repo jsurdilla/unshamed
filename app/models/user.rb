@@ -35,7 +35,8 @@ class User < ActiveRecord::Base
   scope :onboarded, -> { where(onboarded: true) }
 
   def full_name
-    [first_name, last_name].join(' ')
+    full_name = [first_name, last_name].join(' ').strip
+    full_name.empty? ? nil : full_name
   end
 
   def mailboxer_email(object)
