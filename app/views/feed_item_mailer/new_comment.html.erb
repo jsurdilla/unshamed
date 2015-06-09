@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Hello <%= @user.full_name || @user.email %>,</p>
+    <p>
+      <% if @item.is_a?(Post) -%>
+        Someone commented on your post:
+        <blockquote>
+          <%= @item.body -%>
+        </blockquote>
+      <% elsif @item.is_a?(JournalEntry) -%>
+        Someone commented on your journal entry, "<%= @item.title -%>".
+      <% end -%>
+      <a href='http://www.unshamed.com/#/home'>Visit UnShamed</a> to check it out.
+    </p>
+    <p>
+      Wishing you a wonderful day,<br />
+      Ben
+    </p>
+  </body>
+</html>

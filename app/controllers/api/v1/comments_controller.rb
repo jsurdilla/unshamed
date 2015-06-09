@@ -27,6 +27,8 @@ class Api::V1::CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.author = current_user
     if @comment.save
+      FeedItemMailer.new_comment(@comment.commentable.user, @comment.commentable).deliver
+
       payload = JSON.parse(render_template('api/v1/comments/show', { :@comment => @comment }))
       channels = RedisCache::StruggleMembers.new(current_user.struggles).items(1).map { |x| "private-user#{x.split(':').last}" }
       Pusher.trigger(channels, 'new-comment', payload, { socket_id: client_socket_id })
