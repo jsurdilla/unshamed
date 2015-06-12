@@ -5,7 +5,7 @@ class FeedItemMailer < ActionMailer::Base
     @user = user
     @item = item
 
-    mail(to: @user.email, subject: 'New Friend Request')
+    mail(to: @user.email, subject: 'New Comment')
   end
 
 end
